@@ -13,16 +13,18 @@ $(document).ready(function(){
 
     /* Make widgets draggable */
     $( function() {
-        $( "#widget-jsps-container" ).draggable({ handle: ".widget-drag-handle" });
+        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle" });
     } );
 
     /* Make widgets visible / invisible */
-    $( "#hide-show-widget-jsps" ).on( "click", function(event) {
-         $( "#widget-jsps-container" ).toggle( "show" );
+    $( "#hide-show-widget-spjs" ).on( "click", function(event) {
+         $( "#widget-spjs-container" ).toggle( "show" );
     });
 
+    /*
     $( "#hide-show-widget-jsps-on-widget" ).click(function(event) {
          $( "#widget-jsps-container" ).toggle( "show" );
     });
+    */
 
 });
