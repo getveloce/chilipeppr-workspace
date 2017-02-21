@@ -1,0 +1,93 @@
+/* Main CSS */
+body {
+  margin: 10px;
+}
+
+/* Navigation bar CSS */
+ul.navigation-bar {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    list-style-type: none;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background-color: #8fcfff;
+    border-radius: 3px;
+}
+
+.navigation-bar-collapsed {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  list-style-type: none;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-radius: 3px;
+
+  display: none;
+}
+
+li > input[type = button].navigation-bar-item {
+    background-color: #8fcfff;
+    border: none;
+    color: #ffffff;
+    padding: 16px 32px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+li > input[type = button].navigation-bar-item:hover {
+    color: #000000;
+}
+
+#navigation-bar-collapse {
+  background-color: #8fcfff;
+  border: none;
+  color: #ffffff;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#navigation-bar-collapse:hover {
+  color: #000000;
+}
+
+#navigation-bar-decollapse {
+  background-color: #ffffff;
+  border: none;
+  color: #000000;
+  padding: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#navigation-bar-decollapse:hover {
+  color: #8fcfff;
+}
+
+li.pull-left {
+  float: left;
+
+  /* Workaround */
+  margin-left: -40px;
+}
+
+li.pull-right {
+  float: right;
+}
+
+/* Draggable widget Navigation bar CSS */
+ul.widget-drag-handle {
+    list-style-type: none;
+    margin-bottom: 10px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #8fcfff;
+    border-radius: 3px;
+}
+
+#widget-jsps-container {
+  display: none;
+}
