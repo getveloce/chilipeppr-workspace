@@ -103,32 +103,22 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
          * Load the Console widget via chilipeppr.load()
          */
         loadConsoleWidget: function(callback) {
-            var that = this;
-            chilipeppr.load(
-                "#com-chilipeppr-widget-spconsole-instance",
-                "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
-                function() {
-                    // Callback after widget loaded into #com-chilipeppr-widget-spconsole-instance
-                    cprequire(
-                        ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
-                        function(mywidget) {
-                            // Callback that is passed reference to your newly loaded widget
-                            console.log("My Console widget just got loaded.", mywidget);
-                            that.widgetConsole = mywidget;
-
-                            // init the serial port console
-                            // 1st param tells the console to use "single port mode" which
-                            // means it will only show data for the green selected serial port
-                            // rather than for multiple serial ports
-                            // 2nd param is a regexp filter where the console will filter out
-                            // annoying messages you don't generally want to see back from your
-                            // device, but that the user can toggle on/off with the funnel icon
-                            that.widgetConsole.init(true, /myfilter/);
-                            if (callback) callback(mywidget);
-                        }
-                    );
+          chilipeppr.load(
+            "#widget-console-container",
+            "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-console.html",
+            function() {
+              // Callback after widget loaded into #myDivWidgetSpconsole
+              // Now use require.js to get reference to instantiated widget
+              cprequire(
+                ["inline:com-chilipeppr-widget-spconsole"], // the id you gave your widget
+                function(myObjWidgetSpconsole) {
+                  // Callback that is passed reference to the newly loaded widget
+                  console.log("Widget / Serial Port Console v1.7 just got loaded.", myObjWidgetSpconsole);
+                  myObjWidgetSpconsole.init();
                 }
-            );
+              );
+            }
+          );
         },
     }
 });
