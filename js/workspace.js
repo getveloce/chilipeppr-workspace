@@ -61,6 +61,8 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
             this.loadAxesWidget();
 
+            this.load3DViewerWidget();
+
             // Setup an event to react to window resize. This helps since
             // some of our widgets have a manual resize to cleanly fill
             // the height of the browser window. You could turn this off and
@@ -138,6 +140,27 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                   // Callback that is passed reference to the newly loaded widget
                   console.log("Widget / XYZ Axes v2 just got loaded.", myObjWidgetXyz);
                   myObjWidgetXyz.init();
+                }
+              );
+            }
+          );
+        },
+        /**
+         * Load the 3D Viewer widget via chilipeppr.load()
+         */
+        load3DViewerWidget: function(callback) {
+          chilipeppr.load(
+            "#widget-3dviewer-container",
+            "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-3dviewer.html",
+            function() {
+              // Callback after widget loaded into #myDivWidget3dviewer
+              // Now use require.js to get reference to instantiated widget
+              cprequire(
+                ["inline:com-chilipeppr-widget-3dviewer"], // the id you gave your widget
+                function(myObjWidget3dviewer) {
+                  // Callback that is passed reference to the newly loaded widget
+                  console.log("Widget / 3D GCode Viewer just got loaded.", myObjWidget3dviewer);
+                  myObjWidget3dviewer.init();
                 }
               );
             }

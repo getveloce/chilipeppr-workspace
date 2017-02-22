@@ -4,7 +4,7 @@ body {
 }
 
 /* Navigation bar CSS */
-ul.navigation-bar {
+ul#navigation-bar {
     position: fixed;
     top: 10px;
     left: 10px;
@@ -14,9 +14,10 @@ ul.navigation-bar {
     overflow: hidden;
     background-color: #8fcfff;
     border-radius: 3px;
+    z-index: 10;
 }
 
-.navigation-bar-collapsed {
+ul#navigation-bar-collapsed {
   position: fixed;
   top: 10px;
   left: 10px;
@@ -24,7 +25,7 @@ ul.navigation-bar {
   margin-bottom: 10px;
   overflow: hidden;
   border-radius: 3px;
-
+  z-index: 10;
   display: none;
 }
 
@@ -115,4 +116,8 @@ ul.widget-drag-handle {
   display: none;
   top: 60px;
   left: 80px;
+}
+
+#widget-3dviewer-container {
+  top: 60px;
 }

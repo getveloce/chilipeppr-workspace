@@ -16,6 +16,7 @@ $(document).ready(function(){
         $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: "window" ,stack: ".draggable" });
         $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable" });
         $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable" });
+        $( "#widget-3dviewer-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable"});
     } );
 
     /* Make widgets visible / invisible */
@@ -29,6 +30,10 @@ $(document).ready(function(){
 
     $( "#hide-show-widget-axes" ).on( "click", function(event) {
          $( "#widget-axes-container" ).toggle( "show" );
+    });
+
+    $( "#hide-show-widget-3dviewer" ).on( "click", function(event) {
+         $( "#widget-3dviewer-container" ).toggle( "show" );
     });
 
 });
