@@ -59,6 +59,8 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                 setTimeout(function() { $(window).trigger('resize'); }, 100);
             });
 
+            this.loadAxesWidget();
+
             // Setup an event to react to window resize. This helps since
             // some of our widgets have a manual resize to cleanly fill
             // the height of the browser window. You could turn this off and
@@ -115,6 +117,27 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                   // Callback that is passed reference to the newly loaded widget
                   console.log("Widget / Serial Port Console v1.7 just got loaded.", myObjWidgetSpconsole);
                   myObjWidgetSpconsole.init();
+                }
+              );
+            }
+          );
+        },
+        /**
+         * Load the Axes widget via chilipeppr.load()
+         */
+        loadAxesWidget: function(callback) {
+          chilipeppr.load(
+            "#widget-axes-container",
+            "http://raw.githubusercontent.com/chilipeppr/widget-axes/master/auto-generated-widget.html",
+            function() {
+              // Callback after widget loaded into #myDivWidgetXyz
+              // Now use require.js to get reference to instantiated widget
+              cprequire(
+                ["inline:com-chilipeppr-widget-xyz"], // the id you gave your widget
+                function(myObjWidgetXyz) {
+                  // Callback that is passed reference to the newly loaded widget
+                  console.log("Widget / XYZ Axes v2 just got loaded.", myObjWidgetXyz);
+                  myObjWidgetXyz.init();
                 }
               );
             }

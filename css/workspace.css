@@ -110,3 +110,9 @@ ul.widget-drag-handle {
   display: none;
   top: 60px;
 }
+
+#widget-axes-container {
+  display: none;
+  top: 60px;
+  left: 80px;
+}

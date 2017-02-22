@@ -13,8 +13,9 @@ $(document).ready(function(){
 
     /* Make widgets draggable */
     $( function() {
-        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: "window" });
-        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: "window" });
+        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: "window" ,stack: ".draggable" });
+        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable" });
+        $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable" });
     } );
 
     /* Make widgets visible / invisible */
@@ -22,15 +23,12 @@ $(document).ready(function(){
          $( "#widget-spjs-container" ).toggle( "show" );
     });
 
-    /* Make widgets visible / invisible */
     $( "#hide-show-widget-console" ).on( "click", function(event) {
          $( "#widget-console-container" ).toggle( "show" );
     });
 
-    /*
-    $( "#hide-show-widget-jsps-on-widget" ).click(function(event) {
-         $( "#widget-jsps-container" ).toggle( "show" );
+    $( "#hide-show-widget-axes" ).on( "click", function(event) {
+         $( "#widget-axes-container" ).toggle( "show" );
     });
-    */
 
 });
