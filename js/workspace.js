@@ -65,7 +65,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
             // some of our widgets have a manual resize to cleanly fill
             // the height of the browser window. You could turn this off and
             // just set widget min-height in CSS instead
-            this.setupResize();
+            //this.setupResize();
             setTimeout(function() { $(window).trigger('resize'); }, 100);
 
         },
@@ -128,7 +128,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
         loadAxesWidget: function(callback) {
           chilipeppr.load(
             "#widget-axes-container",
-            "http://raw.githubusercontent.com/chilipeppr/widget-axes/master/auto-generated-widget.html",
+            "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-axes.html",
             function() {
               // Callback after widget loaded into #myDivWidgetXyz
               // Now use require.js to get reference to instantiated widget
