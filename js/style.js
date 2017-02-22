@@ -24,16 +24,31 @@ $(document).ready(function(){
         var y0 = 70;
 
         var window_widget_spjs_draggable = [x0, y0, $( window ).width() - $( "#widget-spjs-container" ).width() - x0 - x_offset, $( window ).height() - y0];
-        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_spjs_draggable, stack: ".draggable" });
+        $( "#widget-spjs-container" ).draggable({
+            handle: ".widget-drag-handle",
+            containment: window_widget_spjs_draggable,
+            stack: ".draggable"
+          });
 
         var window_widget_console_draggable = [x0, y0, $( window ).width() - $( "#widget-console-container" ).width() - x0 - x_offset, $( window ).height() - y0];
-        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_console_draggable, stack: ".draggable" });
+        $( "#widget-console-container" ).draggable({
+            handle: ".widget-drag-handle",
+            containment: window_widget_console_draggable,
+            stack: ".draggable"
+          });
 
         var window_widget_axes_draggable = [x0 + x_offset_axes, y0, $( window ).width() - $( "#widget-axes-container" ).width() - x0 - x_offset, $( window ).height() - y0];
-        $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_axes_draggable , stack: ".draggable" });
+        $( "#widget-axes-container" ).draggable({
+            handle: ".widget-drag-handle",
+            containment: window_widget_axes_draggable,
+            stack: ".draggable"
+          });
 
         var window_widget_3dviewer_draggable = [x0, y0, $( window ).width() - $( "#widget-3dviewer-container" ).width() - x0 - x_offset_3dviewer, $( window ).height() - y0];
-        $( "#widget-3dviewer-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_3dviewer_draggable });
+        $( "#widget-3dviewer-container" ).draggable({
+            handle: ".widget-drag-handle",
+            containment: window_widget_3dviewer_draggable
+          });
     } );
 
     /*

@@ -105,17 +105,22 @@ ul.widget-drag-handle {
 #widget-spjs-container {
   display: none;
   top: 60px;
+  z-index: 3;
 }
 
 #widget-console-container {
   top: 60px;
+  z-index: 2;
 }
 
 #widget-axes-container {
   display: none;
   top: 60px;
+  z-index: 4;
 }
 
 #widget-3dviewer-container {
   top: 60px;
+  right: 60px;
+  z-index: 1;
 }
