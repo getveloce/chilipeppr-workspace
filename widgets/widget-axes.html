@@ -488,6 +488,7 @@ cpdefine("inline:com-chilipeppr-widget-xyz", ["chilipeppr_ready", "jquerycookie"
             this.setupTouchArea();
             this.setupShowHideTouchBtn();
             this.setupShowHideWcsBtn();
+            this.toggleWcs();
             var that = this;
             console.log(this.name + " done loading.");
         },
@@ -2257,7 +2258,7 @@ cpdefine("inline:com-chilipeppr-widget-xyz", ["chilipeppr_ready", "jquerycookie"
         <div id="com-chilipeppr-widgetholder-wcs" style="position: absolute;left:-80px;top:10px;"></div>
         <div class="panel-heading widget-drag-handle">
             <div class="btn-group pull-left" style="margin-left:-6px;padding-right:6px;">
-                <button type="button" class="btn btn-xs btn-default btnToggleShowWcs" data-delay="500" data-animation="false" data-placement="auto" data-container="body" data-trigger="hover" data-title="Show Work Coordinate System" data-content="Open up the WCS widget to be able to switch work coordinate systems easily or see which layer you're on.">
+                <button type="button" class="btn btn-xs btn-default btnToggleShowWcs" data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Show Work Coordinate System" data-content="Open up the WCS widget to be able to switch work coordinate systems easily or see which layer you're on.">
                     <svg width="18px" height="18px" viewbox="0 0 16 16" style="margin-bottom:-5px;" id="svg7248">
                         <g id="layer1">
                             <path d="m 8.062054,9.1535644 c 1.941557,1.1209616 3.883115,2.2419176 5.824672,3.3628786 -1.929436,1.113962 -3.858868,2.227928 -5.7883047,3.341891 C 6.1568636,14.737378 4.2153064,13.616421 2.2737492,12.49546 4.2031855,11.381494 6.1326177,10.267531 8.062054,9.1535644 z"
