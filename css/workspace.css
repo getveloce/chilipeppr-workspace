@@ -108,14 +108,13 @@ ul.widget-drag-handle {
 }
 
 #widget-console-container {
-  display: none;
   top: 60px;
 }
 
 #widget-axes-container {
   display: none;
   top: 60px;
-  left: 80px;
+  left: 80px !important;
 }
 
 #widget-3dviewer-container {

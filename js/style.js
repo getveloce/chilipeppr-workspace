@@ -11,12 +11,16 @@ $(document).ready(function(){
         $( "#navigation-bar" ).toggle( "show" );
     });
 
-    /* Make widgets draggable */
+    /* Make widgets draggable and set max height of console widget*/
     $( function() {
-        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: "window" ,stack: ".draggable" });
-        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable" });
-        $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable" });
-        $( "#widget-3dviewer-container" ).draggable({ handle: ".widget-drag-handle", containment: "window", stack: ".draggable"});
+        var x0 = 0;
+        var y0 = 70;
+        var window_widget_draggable = [x0, y0, $( window ).width() - x0, $( window ).height() - y0];
+
+        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable ,stack: ".draggable" });
+        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable, stack: ".draggable" });
+        $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable, stack: ".draggable" });
+        $( "#widget-3dviewer-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable, stack: ".draggable" });
     } );
 
     /* Make widgets visible / invisible */
