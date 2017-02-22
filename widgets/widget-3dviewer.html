@@ -37,7 +37,7 @@
     position: relative;
     border:0px solid red;
     background-color: blue;
-    z-index: -1;
+    z-index: -10;
 }
 #com-chilipeppr-widget-3dviewer-renderArea {
     position: fixed;
@@ -4259,7 +4259,7 @@ cpdefine('inline:com-chilipeppr-widget-3dviewer', ['chilipeppr_ready', 'Three', 
 <body>
 
     <div id="com-chilipeppr-widget-3dviewer" class="panel panel-default" style="float:left;">
-        <div class="panel-heading well">
+        <div id="widget-3dviewer-heading" class="panel-heading well widget-drag-handle">
             <div class="btn-toolbar pull-right" role="toolbar">
                 <div class="btn-group" data-style="padding-right:6px;">
                     <button type="button" class="btn btn-xs btn-default com-chilipeppr-widget-3d-menu-viewextents" data-container="body" data-toggle="popover" data-placement="auto" data-content="View extents of GCode object" data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-eye-open"></span>
