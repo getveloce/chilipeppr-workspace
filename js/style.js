@@ -1,6 +1,8 @@
 $(document).ready(function(){
 
-    /* Make Navbar collapseable */
+    /*
+     * Make Navbar collapseable
+     **/
     $( "#navigation-bar-collapse" ).on( "click", function(event) {
         $( "#navigation-bar" ).toggle( "show" );
         $( "#navigation-bar-collapsed" ).toggle( "show" );
@@ -11,19 +13,31 @@ $(document).ready(function(){
         $( "#navigation-bar" ).toggle( "show" );
     });
 
-    /* Make widgets draggable and set max height of console widget*/
+    /*
+     * Make widgets draggable
+     **/
     $( function() {
         var x0 = 0;
+        var x_offset = 35;
+        var x_offset_3dviewer = 60;
         var y0 = 70;
-        var window_widget_draggable = [x0, y0, $( window ).width() - x0, $( window ).height() - y0];
 
-        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable ,stack: ".draggable" });
-        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable, stack: ".draggable" });
-        $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: "window" , stack: ".draggable" });
-        $( "#widget-3dviewer-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_draggable });
+        var window_widget_spjs_draggable = [x0, y0, $( window ).width() - $( "#widget-spjs-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+        $( "#widget-spjs-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_spjs_draggable, stack: ".draggable" });
+
+        var window_widget_console_draggable = [x0, y0, $( window ).width() - $( "#widget-console-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+        $( "#widget-console-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_console_draggable, stack: ".draggable" });
+
+        var window_widget_axes_draggable = [x0, y0, $( window ).width() - $( "#widget-axes-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+        $( "#widget-axes-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_axes_draggable , stack: ".draggable" });
+
+        var window_widget_3dviewer_draggable = [x0, y0, $( window ).width() - $( "#widget-3dviewer-container" ).width() - x0 - x_offset_3dviewer, $( window ).height() - y0];
+        $( "#widget-3dviewer-container" ).draggable({ handle: ".widget-drag-handle", containment: window_widget_3dviewer_draggable });
     } );
 
-    /* Make widgets visible / invisible */
+    /*
+     * Make widgets visible / invisible
+     **/
     $( "#hide-show-widget-spjs" ).on( "click", function(event) {
          $( "#widget-spjs-container" ).toggle( "show" );
     });
