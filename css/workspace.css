@@ -114,7 +114,6 @@ ul.widget-drag-handle {
 #widget-axes-container {
   display: none;
   top: 60px;
-  left: 80px !important;
 }
 
 #widget-3dviewer-container {
