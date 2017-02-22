@@ -67,11 +67,24 @@ li > input[type = button].navigation-bar-item:hover {
   color: #8fcfff;
 }
 
+#navigation-bar-github {
+  background-color: #8fcfff;
+  border: none;
+  color: #ffffff;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#navigation-bar-github:hover {
+  color: #000000;
+}
+
 li.pull-left {
   float: left;
 
   /* Workaround */
-  margin-left: -40px;
+  /*margin-left: -40px;*/
 }
 
 li.pull-right {
@@ -88,6 +101,12 @@ ul.widget-drag-handle {
     border-radius: 3px;
 }
 
-#widget-jsps-container {
+#widget-spjs-container {
   display: none;
+  top: 60px;
+}
+
+#widget-console-container {
+  display: none;
+  top: 60px;
 }
