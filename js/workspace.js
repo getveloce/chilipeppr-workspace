@@ -68,26 +68,6 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
         },
         /**
-         * Returns the billboard HTML, CSS, and Javascript for this Workspace. The billboard
-         * is used by the home page, the workspace picker, and the fork pulldown to show a
-         * consistent name/image/description tag for the workspace throughout the ChiliPeppr ecosystem.
-         */
-        getBillboard: function() {
-            var el = $('#' + this.id + '-billboard').clone();
-            el.removeClass("hidden");
-            el.find('.billboard-desc').text(this.desc);
-            return el;
-        },
-        /**
-         * Inject the billboard into the Workspace upper right corner pulldown which
-         * follows the standard template for workspace pulldown menus.
-         */
-        addBillboardToWorkspaceMenu: function() {
-            // get copy of billboard
-            var billboardEl = this.getBillboard();
-            $('#' + this.id + ' .com-chilipeppr-ws-billboard').append(billboardEl);
-        },
-        /**
          * Listen to window resize event.
          */
         setupResize: function() {
@@ -105,7 +85,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
         loadSpjsWidget: function(callback) {
             chilipeppr.load(
                 "#widget-spjs-container",
-                "http://localhost/chilipeppr/chilipeppr-workspace/widgets/widget-spjs.html",
+                "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-spjs.html",
                 function() {
                     // Callback after widget loaded into #myDivWidgetSerialport
                     // Now use require.js to get reference to instantiated widget
