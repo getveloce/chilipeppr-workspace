@@ -4257,8 +4257,8 @@ cpdefine('inline:com-chilipeppr-widget-3dviewer', ['chilipeppr_ready', 'Three', 
 </head>
 
 <body>
-    <div id="widget-3dviewer-panel-heading">
-    <div class="panel-heading well widget-drag-handle">
+
+    <div id="widget-3dviewer-panel-heading" class="panel-heading well widget-drag-handle draggable">
         <div class="btn-toolbar pull-right" role="toolbar">
             <div class="btn-group" data-style="padding-right:6px;">
                 <button type="button" class="btn btn-xs btn-default com-chilipeppr-widget-3d-menu-viewextents" data-container="body" data-toggle="popover" data-placement="auto" data-content="View extents of GCode object" data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-eye-open"></span>
@@ -4324,7 +4324,6 @@ cpdefine('inline:com-chilipeppr-widget-3dviewer', ['chilipeppr_ready', 'Three', 
         </div>
         <span class="panel-title" style="padding-right:10px;" data-toggle="popover" data-trigger="hover" data-placement="auto" data-content="">3D&nbsp;Viewer</span>
         <div style="xposition:absolute;bottom:-18px;left:0px;border:0px solid red;line-height:10px;" class="com-chilipeppr-widget-3dviewer-panzoom-indicator">Pan: Right-Click Drag, Zoom: Mousewheel/Touchpad Scroll, Orbit: Mouse/Touch Drag</div>
-    </div>
     </div>
 
     <div id="com-chilipeppr-widget-3dviewer" class="panel panel-default" style="float:right;">
