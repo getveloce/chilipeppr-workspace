@@ -47,7 +47,8 @@ $(document).ready(function(){
         var window_widget_3dviewer_draggable = [x0, y0, $( window ).width() - $( "#widget-3dviewer-container" ).width() - x0 - x_offset_3dviewer, $( window ).height() - y0];
         $( "#widget-3dviewer-container" ).draggable({
             handle: ".widget-drag-handle",
-            containment: window_widget_3dviewer_draggable
+            containment: window_widget_3dviewer_draggable,
+            stack: ".draggable"
           });
     } );
 
