@@ -17,16 +17,12 @@
 .lastModifyDate {
     color: silver;
 }
-#com-chilipeppr-widget-autolevel .nav-tabs>li>a {
-    padding: 2px 6px;
-}
-
 #com-chilipeppr-widget-autolevel .btn-group {
     margin-left:0;
     margin-right:4px;
 }
 #com-chilipeppr-widget-autolevel-body {
-    padding:3px;
+    padding:0;
 }
 #com-chilipeppr-widget-autolevel-body .tab-pane {
     padding:10px 16px 20px 16px;
@@ -85,14 +81,17 @@
     text-decoration: none;
     background: 0 0;
 }
+#com-chilipeppr-widget-autolevel-status{
+    resize: none;
+    overflow-y:scroll;
+}
     </style>
 
     <script type='text/javascript'>
     //<![CDATA[
-/* global THREE requirejs chilipeppr cprequire cpdefine */
 requirejs.config({
     paths: {
-        // Three: '//i2dcui.appspot.com/geturl?url=http://threejs.org/build/three.min.js',
+//         Three: '//i2dcui.appspot.com/geturl?url=http://threejs.org/build/three.js',
         Three: 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r76/three',
         ThreeTextGeometry: '//i2dcui.appspot.com/js/three/TextGeometry',
         ThreeFontUtils: '//i2dcui.appspot.com/js/three/FontUtils',
@@ -117,86 +116,19 @@ console.log(window["_typeface_js"]);
 */
 
 // Test this element. This code is auto-removed by the chilipeppr.load()
-cprequire_test(["inline:com-chilipeppr-widget-autolevel"], function (autolevel) {
-    console.log("test running of " + autolevel.id);
-    autolevel.init();
 
-    $('#com-chilipeppr-widget-autolevel').css('margin', '30px');
-    $('#com-chilipeppr-widget-autolevel').css('position', 'relative');
-    $('#com-chilipeppr-widget-autolevel').css('background', 'none');
-    $('body').prepend('<div id="3dviewer"></div>');
-
-    chilipeppr.load(
-        "#3dviewer",
-        //"http://fiddle.jshell.net/chilipeppr/y3HRF/show/light/",
-        "http://raw.githubusercontent.com/chilipeppr/widget-3dviewer/master/auto-generated-widget.html",
-        function() {
-        cprequire(['inline:com-chilipeppr-widget-3dviewer'], function (threed) {
-            threed.init({doMyOwnDragDrop: true});
-            $('#com-chilipeppr-widget-3dviewer .panel-heading').addClass('hidden');
-            //autolevel.addRegionTo3d();
-            //autolevel.loadFileFromLocalStorageKey('com-chilipeppr-widget-autolevel-recent8');
-            //autolevel.toggleShowMatrix();
-        });
-    });
-
-    // we mimic the /send and /recvline serial port methods here for testing
-    chilipeppr.subscribe("/com-chilipeppr-widget-serialport/send", this, function(data) {
-        // when we get a send of {"z":""} reply back as if the tinyg is sending it
-        if (data == '{"z":""}\n') {
-            setTimeout(function() {
-                chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline:'{"r":{"z":{"am":1,"vm":400,"fr":200,"tm":70,"jm":3000000,"jh":20000000,"jd":0.0500,"sn":1,"sx":0,"sv":20,"lv":10,"lb":10.000,"zb":0.000},"f":[1,0,9,7178]}}'});
-            }, 1000);
-        }
-
-        if (data == "G28.2 Z0\n") {
-            var sr = '{"sr":{"mpoz":0.118}}\n' +
-                '{"sr":{"mpoz":0.084}}\n' +
-                '{"sr":{"mpoz":0.051}}\n' +
-                '{"sr":{"vel":26.58,"mpoz":0.038,"coor":0,"dist":1,"stat":9}}\n' +
-                '{"sr":{"mpoz":0.018}}\n' +
-                '{"sr":{"mpoz":-0.014}}\n' +
-                '{"sr":{"vel":19.94,"mpoz":-0.047}}\n' +
-                '{"sr":{"vel":0.95,"mpoz":-0.065}}\n' +
-                '{"sr":{"vel":0.00,"mpoz":-0.065,"stat":3}}\n' +
-                '{"qr":27}\n' +
-                '{"sr":{"vel":9.94,"mpoz":-0.058,"stat":9}}\n' +
-                '{"sr":{"vel":10.00,"mpoz":-0.042}}\n' +
-                '{"sr":{"mpoz":-0.025}}\n' +
-                '{"sr":{"mpoz":-0.009}}\n' +
-                '{"sr":{"vel":0.25,"mpoz":0.002}}\n' +
-                '{"qr":28}\n' +
-                //'{"sr"{"sr":{"vel":0.00,"stat":3}}\n';
-                '{"sr"{"sr":{"mpoz":0.000,"coor":1,"dist":0}}\n';
-            var srs = sr.split(/\n/);
-            var delay = 0;
-            srs.forEach(function(item) {
-                delay += 100;
-                setTimeout(function() {
-                    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline:item + "\n"});
-                }, delay);
-            });
-        }
-    });
-
-    var testFinalData = [];
-
-    //autolevel.loadTestData(testFinalData);
-    //autolevel.loadFileFromLocalStorageKey('com-chilipeppr-widget-autolevel-recent6');
-
-} /*end_test*/ );
 
 
 cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHelvetiker", "Three"], function () {
 
     return {
         id: "com-chilipeppr-widget-autolevel",
-        url: "http://raw.githubusercontent.com/chilipeppr/widget-autolevel/master/auto-generated-widget.html",       // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
-        fiddleurl: "http://ide.c9.io/chilipeppr/widget-autolevel", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
-        githuburl: "http://github.com/chilipeppr/widget-autolevel", // The backing github repo
-        testurl: "http://widget-autolevel-chilipeppr.c9users.io/widget.html",   // The standalone working widget so can view it working by itself
+        url: "http://raw.githubusercontent.com/raykholo/grbl-widget-autolevel/master/auto-generated-widget.html",       // The final URL of the working widget as a single HTML file with CSS and Javascript inlined. You can let runme.js auto fill this if you are using Cloud9.
+        fiddleurl: "http://ide.c9.io/raykholo/grbl-widget-autolevel", // The edit URL. This can be auto-filled by runme.js in Cloud9 if you'd like, or just define it on your own to help people know where they can edit/fork your widget
+        githuburl: "http://github.com/raykholo/grbl-widget-autolevel", // The backing github repo
+        testurl: "http://grbl-widget-autolevel-raykholo.c9users.io/widget.html",   // The standalone working widget so can view it working by itself
         name: "Widget / Auto-Level",
-        desc: "Allows you to auto-level your PCB or other conductive surface before milling. Most raw PCB boards or other surfaces have a slight warpage. This widget lets you probe the warpage and then it auto-scales your Gcode to match the warpage so you get very clean/predictable z-positions in your milling job.",
+        desc: "Allows you to auto-level your PCB before milling. Most raw PCB boards have a slight warpage. This widget lets you probe the warpage and then it auto-scales your Gcode to match the warpage so you get very clean/predictable z-positions in your milling job.",
         publish: {
         },
         subscribe: {},
@@ -206,7 +138,8 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             "/com-chilipeppr-widget-3dviewer/request3dObject" : "We ask the 3D viewer to send us the user object being shown in 3D viewer so we can analyze it. In particular, we want to know its bounding box for calculating the probe area."
         },
         foreignSubscribe: {
-            "/com-chilipeppr-widget-3dviewer/recv3dObject" : "When we request a /com-chilipeppr-widget-3dviewer/request3dObject we get back this signal and the payload is the actual user object so we can analyze it."
+            "/com-chilipeppr-widget-3dviewer/recv3dObject" : "When we request a /com-chilipeppr-widget-3dviewer/request3dObject we get back this signal and the payload is the actual user object so we can analyze it.",
+            "/com-chilipeppr-interface-cnccontroller/proberesponse" : "we receive the parsed probe trigger coordinates back from the cnc interface."
         },
         init: function () {
 
@@ -263,23 +196,6 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             // envelope
             $('.com-chilipeppr-widget-autolevel-envelope').click(this.envelope.bind(this));
             $('.com-chilipeppr-widget-autolevel-gcodeview').click(this.envelopeView.bind(this));
-
-            // lazy load tutorial tab youtube vid
-            var isVidLoaded = false;
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                //e.target // activated tab
-                console.log("tab activated. e.target:", $(e.target));
-                if ($(e.target).text() == 'Tutorial') {
-                    // lazy load
-                    console.log("we are on tutorial tab");
-                    if (!isVidLoaded) {
-                        console.log("lazy loading vid cuz not loaded");
-                        isVidLoaded = true;
-                        $('#autolevel-tutorial').html('<iframe style="width:100%;" class="" src="//www.youtube.com/embed/6WNE3E1ZZYY" frameborder="0" allowfullscreen></iframe>');
-                    }
-                }
-                //e.relatedTarget // previous tab
-            })
 
             console.log(this.name + " done loading.");
         },
@@ -344,7 +260,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
             var nextSlot = lastSlot + 1;
             var recent = localStorage.getItem("com-chilipeppr-widget-autolevel-recent" + nextSlot);
-            if (recent == null) {
+            if (recent === null) {
                 console.log("empty slot. filling.");
                 localStorage.setItem("com-chilipeppr-widget-autolevel-recent" + nextSlot, fileStr);
                 localStorage.setItem("com-chilipeppr-widget-autolevel-recent" + nextSlot + "-name", info.name);
@@ -362,13 +278,13 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             console.log("listItems:", li);
             var ctr = 0;
             var recentName = localStorage.getItem("com-chilipeppr-widget-autolevel-recent" + ctr + "-name");
-            while(recentName != null) {
+            while(recentName !== null) {
                 console.log("recentFile ctr:", ctr, "recentName:", recentName);
                 var recentLastModified = localStorage.getItem("com-chilipeppr-widget-autolevel-recent" + ctr + "-lastMod");
                 var rlm = new Date(recentLastModified);
                 var recentSize = localStorage.getItem("com-chilipeppr-widget-autolevel-recent" + ctr).length;
-                var rsize = parseInt(recentSize / 1024);
-                if (rsize == 0) rsize = 1;
+                var rsize = parseInt(recentSize / 1024,10);
+                if (rsize === 0) rsize = 1;
                 var newLi = $(
                     '<li class="recent-file-item"><a href="javascript:">' + recentName +
                     ' <span class="lastModifyDate">' + rlm.toLocaleString() + '</span>' +
@@ -472,7 +388,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
         },
         isFadeOutUserObject: false,
         fadeOutUserObject: function() {
-            if (!this.isFadeOutUserObject && this.user3dObject != null) {
+            if (!this.isFadeOutUserObject && this.user3dObject !== null) {
                 // fade out the user object so our matrix is visible
                 chilipeppr.publish('/com-chilipeppr-widget-3dviewer/wakeanimate', "");
                 var o = this.user3dObject;
@@ -528,7 +444,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 breakLongGCmdsIntoMoreZ: false
             };
 
-            if (opts != null) {
+            if (opts !== null) {
                 options = opts;
             }
 
@@ -579,7 +495,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             // then we can update all widgets with the new gcode to
             // apply the envelope
             var gcode = this.user3dObject;
-            if (gcode == null) {
+            if (gcode === null) {
                 console.log("getting 3d obj from 3d viewer");
                 this.get3dObjectFrom3dViewer();
                 gcode = this.user3dObject;
@@ -594,7 +510,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             // we take the mesh and raycast all pts to get their adjusted z
             // probeMesh is set by the drawMatrix() method
             var meshGrp = this.getUnitMesh();
-            if (meshGrp == null) {
+            if (meshGrp === null) {
                 console.log("uh oh. mesh is null.");
             } else {
                 console.log("meshGrp good:", meshGrp);
@@ -752,22 +668,22 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                     var x1 = pd2[ctrx][ctry].x;
                     var y1 = pd2[ctrx][ctry].y;
                     var z1 = pd2[ctrx][ctry].z;
-                    z1 = (z1 == null) ? 0 : z1;
+                    z1 = (z1 === null) ? 0 : z1;
                     // pt2 is 1 up in y direction
                     var x2 = pd2[ctrx][ctry+1].x;
                     var y2 = pd2[ctrx][ctry+1].y;
                     var z2 = pd2[ctrx][ctry+1].z;
-                    z2 = (z2 == null) ? 0 : z2;
+                    z2 = (z2 === null) ? 0 : z2;
                     // pt3 is 1 right in x direction, 1 up in y dir
                     var x3 = pd2[ctrx+1][ctry+1].x;
                     var y3 = pd2[ctrx+1][ctry+1].y;
                     var z3 = pd2[ctrx+1][ctry+1].z;
-                    z3 = (z3 == null) ? 0 : z3;
+                    z3 = (z3 === null) ? 0 : z3;
                     // pt4 is 1 right in x direction
                     var x4 = pd2[ctrx+1][ctry].x;
                     var y4 = pd2[ctrx+1][ctry].y;
                     var z4 = pd2[ctrx+1][ctry].z;
-                    z4 = (z4 == null) ? 0 : z4;
+                    z4 = (z4 === null) ? 0 : z4;
 
                     // add to mesh
                     //geom.vertices.push(new THREE.Vector3(cx,cy,cz));
@@ -777,23 +693,20 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
                     var v = new THREE.Vector3(x1,y1,z1);
                     //console.log("adding pt1:", v);
-                    if (z1 != null) vertices.push(v);
+                    if (z1 !== null) vertices.push(v);
                     var v = new THREE.Vector3(x2,y2,z2);
                     //console.log("adding pt2:", v);
-                    if (z2 != null) vertices.push(v);
+                    if (z2 !== null) vertices.push(v);
                     var v = new THREE.Vector3(x3,y3,z3);
                     //console.log("adding pt3:", v);
-                    if (z3 != null) vertices.push(v);
+                    if (z3 !== null) vertices.push(v);
                     var v = new THREE.Vector3(x4,y4,z4);
                     //console.log("adding pt3:", v);
-                    if (z4 != null) vertices.push(v);
+                    if (z4 !== null) vertices.push(v);
 
                     geometry.vertices = vertices;
 
                     //console.log("about to triangulate shape. vertices:", vertices, "holes:", holes);
-                    // used to be in pre-r73
-                    //triangles = THREE.Shape.Utils.triangulateShape ( vertices, holes );
-                    // now is this in post r73
                     triangles = THREE.ShapeUtils.triangulateShape ( vertices, holes );
                     for( var i = 0; i < triangles.length; i++ ){
                         geometry.faces.push( new THREE.Face3( triangles[i][0], triangles[i][1], triangles[i][2] ));
@@ -818,7 +731,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             // Then we can adjust the z positions of the gcode
             // to their new positions that would match the probe warpage
             var gcode = this.user3dObject;
-            if (gcode == null) {
+            if (gcode === null) {
                 console.log("getting 3d obj from 3d viewer");
                 this.get3dObjectFrom3dViewer();
                 gcode = this.user3dObject;
@@ -834,7 +747,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             // we take the mesh and raycast all pts to get their adjusted z
             // probeMesh is set by the drawMatrix() method
             var meshGrp = this.probeMesh;
-            if (meshGrp == null) {
+            if (meshGrp === null) {
                 console.log("uh oh. mesh is null.");
             } else {
                 console.log("meshGrp good:", meshGrp);
@@ -891,7 +804,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 vertexColors: false, color: color,
                 dashSize: 1, gapSize: 1, linewidth: 2,
                 transparent: true,
-                opacity: 0.8,
+                opacity: 0.8
             });
 
             var p = this.probes;
@@ -903,9 +816,9 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             // this makes our matrix drawing easier
             var pd2 = [];
             p.forEach(function loopThruProbes(item) {
-                if (maxx == null) maxx = item.x;
+                if (maxx === null) maxx = item.x;
                 else if (item.x > maxx) maxx = item.x;
-                if (maxy == null) maxy = item.x;
+                if (maxy === null) maxy = item.x;
                 else if (item.y > maxy) maxy = item.y;
 
                 // calc zabs
@@ -998,22 +911,22 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                     var x1 = pd2[ctrx][ctry].x;
                     var y1 = pd2[ctrx][ctry].y;
                     var z1 = pd2[ctrx][ctry].z;
-                    z1 = (z1 == null) ? 0 : z1;
+                    z1 = (z1 === null) ? 0 : z1;
                     // pt2 is 1 up in y direction
                     var x2 = pd2[ctrx][ctry+1].x;
                     var y2 = pd2[ctrx][ctry+1].y;
                     var z2 = pd2[ctrx][ctry+1].z;
-                    z2 = (z2 == null) ? 0 : z2;
+                    z2 = (z2 === null) ? 0 : z2;
                     // pt3 is 1 right in x direction, 1 up in y dir
                     var x3 = pd2[ctrx+1][ctry+1].x;
                     var y3 = pd2[ctrx+1][ctry+1].y;
                     var z3 = pd2[ctrx+1][ctry+1].z;
-                    z3 = (z3 == null) ? 0 : z3;
+                    z3 = (z3 === null) ? 0 : z3;
                     // pt4 is 1 right in x direction
                     var x4 = pd2[ctrx+1][ctry].x;
                     var y4 = pd2[ctrx+1][ctry].y;
                     var z4 = pd2[ctrx+1][ctry].z;
-                    z4 = (z4 == null) ? 0 : z4;
+                    z4 = (z4 === null) ? 0 : z4;
 
                     // add to mesh
                     //geom.vertices.push(new THREE.Vector3(cx,cy,cz));
@@ -1023,16 +936,16 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
                     var v = new THREE.Vector3(x1,y1,z1 * this.exaggerateMult);
                     //console.log("adding pt1:", v);
-                    if (z1 != null) vertices.push(v);
+                    if (z1 !== null) vertices.push(v);
                     var v = new THREE.Vector3(x2,y2,z2 * this.exaggerateMult);
                     //console.log("adding pt2:", v);
-                    if (z2 != null) vertices.push(v);
+                    if (z2 !== null) vertices.push(v);
                     var v = new THREE.Vector3(x3,y3,z3 * this.exaggerateMult);
                     //console.log("adding pt3:", v);
-                    if (z3 != null) vertices.push(v);
+                    if (z3 !== null) vertices.push(v);
                     var v = new THREE.Vector3(x4,y4,z4 * this.exaggerateMult);
                     //console.log("adding pt3:", v);
-                    if (z4 != null) vertices.push(v);
+                    if (z4 !== null) vertices.push(v);
 
                     geometry.vertices = vertices;
 
@@ -1096,7 +1009,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             var radius = 0.4;
             var segments = 6;
 
-            var geom = new THREE.Geometry();
+            //var geom = new THREE.Geometry();
 
             var that = this;
             p.forEach(function createAllCircles(probe) {
@@ -1105,7 +1018,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 var circle = new THREE.Mesh( circleGeometry, material );
                 var cx = probe.x;
                 var cy = probe.y;
-                var cz = probe.z == null ? 0 : probe.z;
+                var cz = probe.z === null ? 0 : probe.z;
                 //console.log("adding circle. ctrx:", ctrx, "ctry:", ctry, "x", cx, "cy", cy);
                 circle.position.set(cx, cy, cz);
                 circleGrp.add( circle );
@@ -1151,6 +1064,13 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
         },
         removeMatrix: function() {
             chilipeppr.publish("/com-chilipeppr-widget-3dviewer/sceneremove", this.matrix);
+            //deallocate geometry
+            this.matrix.traverse( function ( child ) {
+                if (child.geometry !== undefined) {
+                    child.geometry.dispose();
+                    child.material.dispose();
+                }
+            } );
         },
         onDisplay: function() {
             this.autoFillData();
@@ -1162,12 +1082,15 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
         runTestProbe: function() {
             this.status("Runing test probe.");
             this.send("G21 G90 (Use mm and abs coords)\n");
-            var probeFeedRate = $('.autolevel-elem.al-coord.probe-fr').val();
-            this.send("G38.2 Z-10 F" + probeFeedRate + "\n");
+            this.send("G38.2 Z-10 F5\n");
         },
         startAutoLevel: function() {
+            // connect to cnccontroller for probe responses
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/proberesponse",this, this.probeResponse);
+
             this.currentStep = null;
             this.isPaused = false;
+
             $('.com-chilipeppr-widget-autolevel-run').popover('hide');
             $('.com-chilipeppr-widget-autolevel-pause').popover('hide');
             $('.com-chilipeppr-widget-autolevel-run').prop('disabled', true);
@@ -1175,11 +1098,15 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             this.genProbeGcode();
         },
         stopAutoLevel: function() {
+            // connect to cnccontroller for probe responses
+            chilipeppr.unsubscribe("/com-chilipeppr-interface-cnccontroller/proberesponse",this, this.probeResponse);
+
             this.isPaused = true;
             $('.com-chilipeppr-widget-autolevel-stop').popover('hide');
             $('.com-chilipeppr-widget-autolevel-pause').popover('hide');
             $('.com-chilipeppr-widget-autolevel-run').prop('disabled', false);
             $('.com-chilipeppr-widget-autolevel-pause').prop('disabled', true);
+            this.currentStep = null; //when stopping probing or completing probe run, reset currentStep to null to indicate to probeResponse function that we are not expecting any further communication from cnc interface.
         },
         formUpdate: function() {
             this.calcSteps();
@@ -1201,7 +1128,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
             // only do if they said "go"
             //if (!this.go) return;
-            this.status("Getting your current Z Min homing settings so we can restore them later.");
+            //this.status("Getting your current Z Min homing settings so we can restore them later.");
             //this.getZMinSettings(function() {
                 // after we get our zmin settings, we'll get a callback to here
 
@@ -1264,7 +1191,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 // reverse y direction so we get up/down zig zag for less
                 // y travel as we probe surface, otherwise we keep going to y=0
                 // for each grid column and waste movements
-                if (directiony == null) directiony = "up";
+                if (directiony === null) directiony = "up";
                 else if (directiony == "up") directiony = "down";
                 else directiony = "up";
 
@@ -1327,7 +1254,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 return;
             }
 
-            if (this.currentStep == null) {
+            if (this.currentStep === null) {
                 // we are just starting
                 this.status("Starting probes");
                 this.currentStep = 0;
@@ -1338,6 +1265,12 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             if (this.currentStep >= this.probes.length) {
                 // we're done
                 console.log("next step is greater than probes array length. done.");
+                this.status("Moving Z to safety height");
+                var g = "(Moving to Z safety height)\n" +
+                        "G91\n" +
+                        "G0Z" + $('.autolevel-elem.al-coord.z-safetyheight').val() + "\n" +
+                        "G90\n";
+                this.send(g);
                 this.status("Done running probe. Found all Zs for " + this.probes.length + " locations");
                 this.stopAutoLevel();
 
@@ -1356,155 +1289,80 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 return;
             }
 
+            //These values should be pulling off input boxes, need to be updated to get the .val() of the specific input box.
+
             var probe = this.probes[this.currentStep];
             var pos = '{x:' + probe.x + ',y:' + probe.y + '}';
-
-            // Jarret Luft's fix
             this.status("Moving to " + pos);
-            this.send("G0 Z" + $("#com-chilipeppr-widget-autolevel .high-z").val() + "\n"); //raise probe
+            this.send("G0 Z" + $(".high-z").val() + "\n"); //raise probe
             this.send("G0 X" + probe.x + " Y" + probe.y + "\n"); //move to next probe point
-            this.send("G0 Z" + $("#com-chilipeppr-widget-autolevel .probe-z").val() + "\n"); //lower probe to starting point
+            this.send("G0 Z" + $(".probe-z").val() + "\n"); //lower probe to starting point
 
-            /*
-            this.status("Moving to " + pos);
-            var g = "(Moving to next pos " + pos + ")\n" +
-                        "G0 Z1.5\n" +
-                        "G0 X" + probe.x + " Y" + probe.y + "\n" +
-                        "G0 Z0.5\n";
-            this.send(g);
-            */
-            probe.sent = true;
-
-            // now, delay the watching of the z and the sending of the g28.2 cmd
-            // just to make sure the tinyg is processing the move to the next step. ORRRR we could
-            // watch that the G1 Z1 cmd is done
-            var that = this;
-            setTimeout(function() {
-                that.watchZ(probe, function() {
-                    // this is called when done watching z
-                    // when we get here we have our lowest z pos in the this.probes array
-                    console.log("got done callback");
-
-                    if (that.currentStep == 0) {
-                        // since we were on our first step, we do need to reset z to 0 pos
-                        console.log("got done watchz callback on 1st step. zeroing out z.");
-                        that.status("Zeroing out Z on 1st probe as baseline Z.");
-                        probe.z = 0;
-                        that.send("G28.3 Z0\n");
-                    }
-
-                    setTimeout(that.doNextStep.bind(that), 200);
-                });
-
-                //if (that.currentStep == 0) {
-                    // run the 0 position command to reset to abs 0 on 1st probe location
-                    //that.send("G28.2 Z0\n");
-                    //that.send("G38.2 Z-10 F5\n");
-                    // G28.3 z0
-                //} else {
-                //    that.send("G38.2 Z-0.5 F5\n");
-                //}
-                var maxNegZ = $('.autolevel-elem.al-coord.maxneg-z').val();
-                var probeFeedRate = $('.autolevel-elem.al-coord.probe-fr').val();
-                if (that.currentStep == 0) {
-                    // send long neg z command (hope this works) on 1st step cuz could have high z val
-                    that.send("G38.2 Z-10 F" + probeFeedRate + "\n");
-                } else {
-                    // on subsequent we have a known z near pcb board so no need to go too negative (just in case)
-                    that.send("G38.2 Z" + maxNegZ + " F" + probeFeedRate + "\n");
-                }
-            }, 3000);
-
-        },
-        watchZ: function(probe, donecallback) {
-            // this callback will get the recvline from tinyg for the results
-            // of the z homing
-            //var mpozArr = [];
-            console.log("going to watch z for probe:", probe);
-            var that = this;
-            var callback = function(data) {
-                console.log("got my callback for z homing. data:", data);
-                // make sure it's the data we want
-                // we are sometimes getting dual "sr" stuff and it's not valid json
-                // so do some cleanup
-                // dataline: "{"sr"{"sr":{"vel":0.00,"stat":3}}↵"}
-
-                /* don't need this code anymore as serial port widget fixes for us
-                if (data.dataline.match(/\{"sr"\{"sr"\:/)) {
-                    console.log("got bad data. cleaning it up best we can.");
-                    data.dataline = data.dataline.replace(/\{"sr"\{"sr"\:/, '{"sr":');
-                    console.log("new dataline:", data.dataline);
-                }
-                // dataline: "{"r"{"sr":{"vel":0.00,"mpoz":0.000,"coor":1,"dist":0,"stat":3}}↵"}
-                if (data.dataline.match(/\{"r"\{"sr"\:/)) {
-                    console.log("got bad data2. cleaning it up best we can.");
-                    data.dataline = data.dataline.replace(/\{"r"\{"sr"\:/, '{"sr":');
-                    console.log("new dataline:", data.dataline);
-                }
-                */
-                var json = $.parseJSON(data.dataline);
-
-                // G38.2 Z-1 F5 approach
-                // dataline: {"r":{"prb":{"e":1,"x":20.150,"y":6.831,"z":-2.916,"a":0.000,"b":0.000,"c":0.000}},"f":[1,0,0,1169]}
-                // new format from G2 / v9
-                if ('prb' in json) {
-                    json = { r: json };
-                }
-
-                if ('r' in json && 'prb' in json.r) {
-                    // we hit the probe bottom. awesome. done.
-                    chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/recvline", that, callback);
-                    that.isSubToRecvline = false;
-
-                    console.log("got to end of G38.2 cmd");
-                    probe.z = json.r.prb.z;
-
-                    probe.done = true;
-                    probe.ts = new Date();
-
-                    if (this.currentStep == 0) {
-                        // this is our 1st position, which isn't really a position, it's our auto-setting of 0
-                        //this.status("Set our 1st probe position as new Z zero.");
-                        probe.z = 0;
-                        //this.send("G28.3 Z0\n");
-                    } else {
-                        var pos = '{x:' + probe.x + ',y:' + probe.y + '}';
-                        that.status("Working on probe for " + pos + " Found lowest Z:" + probe.z);
-                    }
-                    // update matrix to show results
-                    this.removeRegionFrom3d();
-                    if (!this.isMatrixShowing)
-                        this.toggleShowMatrix();
-                    else
-                        this.refreshProbeMatrix();
-
-                    if (donecallback) donecallback.call(that);
-                }
-
-            }
-
-            // now subscribe and then usubscribe so we don't get all responses
-            // after the data we want.
-            // don't subscribe more than once
-            if (this.isSubToRecvline) {
-                console.log("already subscribed");
+            if (this.currentStep == 0) {
+                // could adjust the z value for the first probe to find the surface, but currently it is same as other steps.
+                this.send("G38.2 Z" + $(".maxneg-z").val() + " F" + $(".probe-fr").val() + "\n");
             } else {
-                this.isSubToRecvline = true;
-                chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, callback);
+                // on subsequent we have a known z near pcb board so no need to go too negative (just in case)
+                this.send("G38.2 Z" + $(".maxneg-z").val() + " F" + $(".probe-fr").val() + "\n");
+            }
+
+            probe.sent = true; //mark probe sent as true.
+
+        },
+        probeResponse: function(result) {
+            //expecting either coordinate object {"x":x,"y":y,"z":z} (float values) or string "alarm" if probe failed.
+
+            //console.log("received probe response");
+            if(result !== "alarm" && this.currentStep !== null) {
+                console.log("received probe response: ", result);
+                var probe = this.probes[this.currentStep]; //pull current probe
+
+                probe.z = result.z;
+
+                probe.done = true;
+                probe.ts = new Date();
+
+                if (this.currentStep === 0) {
+                    // this is our 1st position, which isn't really a position, it's our auto-setting of 0
+                    //this.status("Set our 1st probe position as new Z zero.");
+                    probe.z = 0;
+                    this.send("G92Z0\n"); //reset Z to
+                } else {
+                    var pos = '{x:' + probe.x + ',y:' + probe.y + '}';
+                    this.status("Working on probe for " + pos + " Found lowest Z:" + probe.z);
+                }
+
+                // update matrix to show results
+                this.removeRegionFrom3d();
+                if (!this.isMatrixShowing)
+                    this.toggleShowMatrix();
+                else
+                    this.refreshProbeMatrix();
+
+                this.doNextStep();
+            }
+            //receiving alarm state will put the probing into pause, and move back one step so that the same probe can be attempted again.
+            //at this point user may need to cancel probing and regenerate probe commands with a different max neg z, or unlock controller (if locked in alarm state) and unpause to try the probe again.
+            else if(result == 'alarm'){
+                //handle for alarm state?
+                console.log("Auto Level: uh oh, alarm state received...");
+
+                this.status("probe failed, clear controller alarm before resuming");
+                this.pause(); //pause execution
+                this.currentStep--; //move back one step so that after alarm is reset probing can repeat the failed attempt.
+            }
+            else {
+                return false; //ignore probe response because the probe command came from some other widget.
             }
         },
-        isSubToRecvline: false,
-
-        autolevelLineCtr: 0,
         send: function(gcode) {
             // send our data
-            //chilipeppr.publish("/com-chilipeppr-widget-serialport/send", gcode);
-            chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", { D: gcode, Id: "autolevel" + (this.autolevelLineCtr++)});
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", gcode);
         },
         statEl: null, // cache the status element in DOM
         status: function(txt) {
             console.log("status. txt:", txt);
-            if (this.statEl == null) this.statEl = $('#com-chilipeppr-widget-autolevel-status');
+            if (this.statEl === null) this.statEl = $('#com-chilipeppr-widget-autolevel-status');
             var len = this.statEl.val().length;
             if (len > 1000) {
                 console.log("truncating auto-level stats");
@@ -1520,59 +1378,14 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             $('#com-chilipeppr-widget-modal-autolevel-start').modal('show');
 
         },
-        getZMinSettings: function(donecallback) {
-            // query tinyg for z min settings, then store, so we can
-            // reset them later
-            var send = '{"z":""}\n';
-            // expect something back like
-            /* {"r":{"z":{"am":1,"vm":400,"fr":200,"tm":70,"jm":3000000,"jh":20000000,"jd":0.0500,"sn":1,"sx":0,"sv":20,"lv":10,"lb":10.000,"zb":0.000},"f":[1,0,9,7178]}}
-            */
-
-            // this callback will get the recvline from tinyg for the expected
-            // settings response
-            var that = this;
-            var callback = function(data) {
-                console.log("got my callback for z settings. data:", data);
-                // make sure it's the data we want
-                if (!('dataline' in data)) {
-                    console.log("did not get dataline in data. returning.");
-                    return;
-                }
-
-                var json = $.parseJSON(data.dataline);
-                if ('r' in json && 'z' in json.r) {
-                    // yes, it's our data
-                    // store it
-                    that.zsettings = json.r;
-                    console.log("settings for z looked good. storing. zsettings:", that.zsettings);
-
-                    // unsub
-                    chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/recvline", that, callback);
-                    //this.isSubToRecvline = false;
-
-                    if (donecallback) donecallback.call(that);
-                }
-            }
-
-            // now subscribe and then usubscribe so we don't get all responses
-            // after the data we want.
-            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, callback);
-            // send our data
-            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", send);
-        },
         autoFillData: function() {
             // read the 3d viewer data and auto-fill the extents
             var b = this.getBbox();
 
             var stepsevery = $('#com-chilipeppr-widget-autolevel-body .grid-steps').val();
             stepsevery = parseFloat(stepsevery);
-
-            // Bug fix by Andrew Powell to get gcode that doesn't start at 0,0, i.e. has negative X or Y values in it, to get bounding box auto-fill region to work correctly
-            var endx = (stepsevery * (parseInt((b.box.max.x - b.box.min.x) / stepsevery) + 1)) + b.box.min.x;
-            var endy = (stepsevery * (parseInt((b.box.max.y - b.box.min.y) / stepsevery) + 1)) + b.box.min.y;
-
-            //var endx = stepsevery * (parseInt((b.box.max.x - b.box.min.x) / stepsevery) + 1);
-            //var endy = stepsevery * (parseInt((b.box.max.y - b.box.min.y) / stepsevery) + 1);
+            var endx = stepsevery * (parseInt((b.box.max.x - b.box.min.x) / stepsevery,10) + 1);
+            var endy = stepsevery * (parseInt((b.box.max.y - b.box.min.y) / stepsevery,10) + 1);
 
             //bbox.box.min.x
             $('#com-chilipeppr-widget-autolevel-body .start-x').val(b.box.min.x);
@@ -1652,7 +1465,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
             // since we're going to overwrite the current regionObj, we better
             // remove it first
-            if (this.regionObj != null) {
+            if (this.regionObj !== null) {
                 this.removeRegionFrom3d();
             }
 
@@ -1673,7 +1486,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 vertexColors: false, color: color,
                 dashSize: 1, gapSize: 1, linewidth: 2,
                 transparent: true,
-                opacity: 0.8,
+                opacity: 0.8
             });
 
             // create a new line to show path
@@ -1714,7 +1527,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             var material = new THREE.MeshBasicMaterial({
                 color: color,
                 transparent: true,
-                opacity: 0.5,
+                opacity: 0.5
             });
 
             var radius = 0.4;
@@ -1769,7 +1582,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
         },
         removeRegionFrom3d: function() {
-            if (this.isRegionShowing == true) {
+            if (this.isRegionShowing === true) {
                 console.log("removeRegionFrom3d");
                 chilipeppr.publish("/com-chilipeppr-widget-3dviewer/sceneremove", this.regionObj);
                 this.isRegionShowing = false;
@@ -1800,7 +1613,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             mat = new THREE.MeshBasicMaterial({
                 color: vals.color,
                 transparent: true,
-                opacity: 0.8,
+                opacity: 0.8
             });
             mesh = new THREE.Mesh( geom, mat );
 
@@ -1826,7 +1639,7 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
             //g.strokeText(text, 0, 20);
 
             // canvas contents will be used for a texture
-            var texture = new THREE.Texture(bitmap)
+            var texture = new THREE.Texture(bitmap);
             texture.needsUpdate = true;
         },
         makeSprite2: function (vals) {
@@ -1896,26 +1709,26 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
 
 
             var height = 2,
-				size = 70,
-				hover = 30,
+                size = 70,
+                hover = 30,
 
-				curveSegments = 4,
+                curveSegments = 4,
 
-				bevelThickness = 2,
-				bevelSize = 1.5,
-				bevelSegments = 3,
-				bevelEnabled = false,
+                bevelThickness = 2,
+                bevelSize = 1.5,
+                bevelSegments = 3,
+                bevelEnabled = false,
 
-				font = "helvetiker", // helvetiker, optimer, gentilis, droid sans, droid serif
-				weight = "normal", // normal bold
-				style = "normal"; // normal italic
+                font = "helvetiker", // helvetiker, optimer, gentilis, droid sans, droid serif
+                weight = "normal", // normal bold
+                style = "normal"; // normal italic
 
             var mirror = false;
 
             var material = new THREE.MeshFaceMaterial( [
-					new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
-					new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
-				] );
+                    new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ), // front
+                    new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } ) // side
+                ] );
 
             var group = new THREE.Object3D();
             group.position.y = -10;
@@ -2037,8 +1850,8 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
                 });
             });
 
-        },
-    }
+        }
+    };
 });
     //]]>
     </script>
@@ -2050,373 +1863,377 @@ cpdefine("inline:com-chilipeppr-widget-autolevel", ["chilipeppr_ready", "ThreeHe
     <!--Put HTML Contents of Widget Here-->
     <div id="com-chilipeppr-widget-autolevel" class="panel panel-default">
         <div class="panel-heading widget-drag-handle">
-            <span class="panel-title" data-toggle="popover">Auto-Level</span>
+          <span class="panel-title" data-toggle="popover" data-original-title="" title="">Auto-Level for GRBL</span>
 
-            <div class="btn-group pull-right" style="margin-right:0;">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu2 xdropdown-menu-right" role="menu">
-                        <li role="presentation" class="dropdown-header">Load Probe Data From Clipboard</li>
-                        <li style="padding:0 20px;">
-                            <div class="input-group">
-                                <textarea class="form-control paste-load" placeholder="Paste Probe Data Here" style="font-size:10px;" rows="5"></textarea>
-                                <span class="input-group-btn" style="vertical-align: top;">
-                                    <button class="btn btn-default paste-load-go" style="" type="button">Load</button>
-                                </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <li class="divider"></li>
-                        <li role="presentation" class="dropdown-header recent-files">Recent Probe Data</li>
-                        <li><a href="javascript:" class="recent-file-delete"><span class="glyphicon glyphicon-trash"></span> Clear Probe Data</a></li>
+          <div class="btn-group pull-right" style="margin-right:0;">
+            <div class="dropdown">
+              <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" data-original-title="" title=""><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu2 xdropdown-menu-right" role="menu">
+                <li role="presentation" class="dropdown-header">Load Probe Data From Clipboard</li>
+                <li style="padding:0 20px;">
+                  <div class="input-group">
+                    <textarea class="form-control paste-load" placeholder="Paste Probe Data Here" style="font-size:10px;" rows="5"></textarea>
+                    <span class="input-group-btn" style="vertical-align: top;">
+                                        <button class="btn btn-default paste-load-go" style="" type="button" data-original-title="" title="">Load</button>
+                                    </span>
+                  </div>
+                  <!-- /input-group -->
+                </li>
+                <li class="divider"></li>
+                <li role="presentation" class="dropdown-header recent-files">Recent Probe Data</li><li class="recent-file-item"><a href="javascript:">Probed 36 locs. Last loc: x:25,y:0 <span class="lastModifyDate">20.1.2017, 20:55:55</span> 3KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 180 locs. Last loc: x:70,y:55 <span class="lastModifyDate">20.1.2017, 18:53:58</span> 19KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 16 locs. Last loc: x:30,y:0 <span class="lastModifyDate">18.1.2017, 21:50:45</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 16 locs. Last loc: x:30,y:0 <span class="lastModifyDate">18.1.2017, 21:39:34</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 16 locs. Last loc: x:30,y:0 <span class="lastModifyDate">18.1.2017, 20:00:03</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 9 locs. Last loc: x:30,y:30 <span class="lastModifyDate">18.1.2017, 19:58:24</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 9 locs. Last loc: x:30,y:30 <span class="lastModifyDate">18.1.2017, 19:52:39</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 9 locs. Last loc: x:30,y:30 <span class="lastModifyDate">18.1.2017, 19:51:34</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 16 locs. Last loc: x:30,y:0 <span class="lastModifyDate">18.1.2017, 19:28:55</span> 1KB</a></li><li class="recent-file-item"><a href="javascript:">Probed 16 locs. Last loc: x:30,y:0 <span class="lastModifyDate">18.1.2017, 19:26:03</span> 1KB</a></li>
+                <li><a href="javascript:" class="recent-file-delete"><span class="glyphicon glyphicon-trash"></span> Clear Probe Data</a></li>
 
-                    </ul>
-                </div>
+              <li class="divider"></li><li role="presentation" class="dropdown-header fork-name">com-chilipeppr-widget-autolevel</li><li><a href="javascript:" class="pubsublink">PubSub for this Widget</a></li><li><a href="http://raw.githubusercontent.com/raykholo/grbl-widget-autolevel/master/auto-generated-widget.html" target="_blank" class="fork">URL for chilipeppr.load()</a></li><li><a href="http://ide.c9.io/raykholo/grbl-widget-autolevel" target="_blank" class="fork">Edit Widget in Cloud9</a></li><li><a href="http://github.com/raykholo/grbl-widget-autolevel" target="_blank" class="fork">Fork Widget in Github</a></li><li><a href="http://grbl-widget-autolevel-raykholo.c9users.io/widget.html" target="_blank" class="fork">View Widget Standalone for Testing</a></li></ul>
+            </div>
+          </div>
+
+          <div class="btn-toolbar " role="toolbar" style="padding-top:4px;">
+            <div class="btn-group" style="xmargin-left:0;">
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-autofill" data-container="body" data-toggle="popover" data-placement="auto" data-content="Auto-fill the Start At and End At positions based on the extent of your Gcode objects in the 3D Viewer" data-trigger="hover" data-delay="800" data-original-title="" title="">Auto-Fill
+              </button>
+              <!-- <button type="button" id="com-chilipeppr-widget-autolevel-raycast" class="btn btn-xs btn-default" >Raycast
+                    </button> -->
             </div>
 
-            <div class="btn-toolbar " role="toolbar" style="padding-top:4px;">
-                <div class="btn-group" style="xmargin-left:0;">
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-autofill" data-container="body" data-toggle="popover" data-placement="auto" data-content="Auto-fill the Start At and End At positions based on the extent of your Gcode objects in the 3D Viewer"
-                    data-trigger="hover" data-delay="800">Auto-Fill
-                    </button>
-                    <!-- <button type="button" id="com-chilipeppr-widget-autolevel-raycast" class="btn btn-xs btn-default" >Raycast
-                </button> -->
-                </div>
-
-                <div class="btn-group" data-style="padding-right:6px;">
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-run" data-container="body" data-toggle="popover" data-placement="auto" data-content="Run the probing process." data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-pause" data-container="body" data-toggle="popover" data-placement="auto" data-content="Pause the probing process. If in the middle of a Z Homing pause will only occur at end."
-                    disabled="disabled" data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-pause"></span>
-                    </button>
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-stop" data-container="body" data-toggle="popover" data-placement="auto" data-content="Stop the probe process." data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-stop"></span>
-                    </button>
-                </div>
-
-                <div class="btn-group" data-style="padding-right:6px;">
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-viewdata"><span class="glyphicon glyphicon-list-alt"></span><span class="glyphicon glyphicon-pushpin" style="margin-left:-2px;color:#666666;"></span>
-                    </button>
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-togglematrix"><span class="glyphicon glyphicon-th-large"></span>
-                    </button>
-                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" style="xpadding:0;" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-zoom-in"></span> <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" class="dropdown-header">Exaggerate Matrix to See Detail Better</li>
-                        <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate1x">1x (None)</a></li>
-                        <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate10x">10x</a></li>
-                        <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate50x">50x (Default)</a></li>
-                        <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate100x">100x</a></li>
-
-                    </ul>
-                </div>
-
-                <div class="btn-group" data-style="padding-right:6px;">
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-gcodeview"><span class="glyphicon glyphicon glyphicon-tasks"></span>
-                    </button>
-                    <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-gcodesendtows"><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-share-alt" style="margin-left:-4px;color:#666666;"></span>
-                    </button>
-
-                    <!-- <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-envelope" >Envelope Gcode
-                </button> -->
-                </div>
-
+            <div class="btn-group" data-style="padding-right:6px;">
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-run" data-container="body" data-toggle="popover" data-placement="auto" data-content="Run the probing process." data-trigger="hover" data-delay="800" data-original-title="" title=""> <span class="glyphicon glyphicon-play"></span>
+              </button>
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-pause" data-container="body" data-toggle="popover" data-placement="auto" data-content="Pause the probing process. If in the middle of a Z Homing pause will only occur at end." disabled="disabled" data-trigger="hover" data-delay="800" data-original-title="" title=""> <span class="glyphicon glyphicon-pause"></span>
+              </button>
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-stop" data-container="body" data-toggle="popover" data-placement="auto" data-content="Stop the probe process." data-trigger="hover" data-delay="800" data-original-title="" title=""> <span class="glyphicon glyphicon-stop"></span>
+              </button>
             </div>
+
+            <div class="btn-group" data-style="padding-right:6px;">
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-viewdata" data-original-title="" title=""><span class="glyphicon glyphicon-list-alt"></span><span class="glyphicon glyphicon-pushpin" style="margin-left:-2px;color:#666666;"></span>
+              </button>
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-togglematrix" data-original-title="" title=""><span class="glyphicon glyphicon-th-large"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-default dropdown-toggle" style="xpadding:0;" data-toggle="dropdown" data-original-title="" title="">
+                <span class="glyphicon glyphicon-zoom-in"></span> <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li role="presentation" class="dropdown-header">Exaggerate Matrix to See Detail Better</li>
+                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate1x">1x (None)</a></li>
+                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate10x">10x</a></li>
+                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate50x">50x (Default)</a></li>
+                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate100x">100x</a></li>
+
+              </ul>
+            </div>
+
+            <div class="btn-group" data-style="padding-right:6px;">
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-gcodeview" data-original-title="" title=""><span class="glyphicon glyphicon glyphicon-tasks"></span>
+              </button>
+              <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-gcodesendtows" data-original-title="" title=""><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-share-alt" style="margin-left:-4px;color:#666666;"></span>
+              </button>
+
+              <!-- <button type="button" id="" class="btn btn-xs btn-default com-chilipeppr-widget-autolevel-envelope" >Envelope Gcode
+                    </button> -->
+            </div>
+
+          </div>
         </div>
         <div id="com-chilipeppr-widget-autolevel-body" class="panel-body">
 
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#autolevel-pre-run" role="tab" data-toggle="tab">Pre-Run</a></li>
-                <li><a href="#autolevel-run" role="tab" data-toggle="tab">Run</a></li>
-                <li><a href="#autolevel-post-run" role="tab" data-toggle="tab">Post-Run</a></li>
-                <li><a href="#autolevel-tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
-            </ul>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#autolevel-pre-run" role="tab" data-toggle="tab">Pre-Run</a></li>
+            <li><a href="#autolevel-run" role="tab" data-toggle="tab">Run</a></li>
+            <li><a href="#autolevel-post-run" role="tab" data-toggle="tab">Post-Run</a></li>
+            <li><a href="#autolevel-tutorial" role="tab" data-toggle="tab">Tutorial</a></li>
+          </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane active" id="autolevel-pre-run">
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="autolevel-pre-run">
 
-                    <div class="btn-toolbar" role="toolbar">
-                        <div class="btn-group" style="xmargin-top:10px;">
-                            <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-autofill" data-container="body" data-toggle="popover" data-placement="auto" data-content="Auto-fill the Start At and End At positions based on the extent of your Gcode objects in the 3D Viewer"
-                            data-trigger="hover" data-delay="800">Auto-Fill
-                            </button>
-                            <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-toggleprobearea">Show Region to Probe
-                            </button>
-                        </div>
-                    </div>
-
-                    <p class="xalert xalert-warning" style="padding-top:6px;">Only works on TinyG Firmware 435.10 or higher.</p>
-
-                    <form class="form-inline" role="form" style="margin-right:10px;">
-                        <div class="form-group title">
-                            Steps Every
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-control autolevel-elem grid-steps" style="width:60px;" value="5" />
-                        </div>
-                        <div class="form-group">
-                            mm
-                        </div>
-                        <div class="form-group calc-steps hidden">
-                            -
-                        </div>
-                    </form>
-
-                    <form class="form-inline" role="form">
-                        <div class="xform-group title">
-                            Start At
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">X</div>
-                                <input type="number" class="form-control autolevel-elem al-coord start-x" value="0" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">Y</div>
-                                <input type="number" class="form-control autolevel-elem al-coord start-y" value="0" />
-                            </div>
-                        </div>
-                    </form>
-
-                    <form class="form-inline" role="form">
-                        <div class="xform-group title">
-                            End At
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">X</div>
-                                <input type="number" class="form-control autolevel-elem al-coord end-x" value="0" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">Y</div>
-                                <input type="number" class="form-control autolevel-elem al-coord end-y" value="0" />
-                            </div>
-                        </div>
-                    </form>
-
-                    <form class="form-inline" role="form">
-                        <div class="xform-group title">
-                            Clearance Height
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">Z</div>
-                                <input type="number" class="form-control autolevel-elem al-coord high-z" value="1.5" />
-                            </div>
-                        </div>
-                    </form>
-
-                    <form class="form-inline" role="form">
-                        <div class="form-group">
-                            <div class="xform-group title">
-                                Start Probing At
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-addon">Z</div>
-                                <input type="number" class="form-control autolevel-elem al-coord probe-z" value="0.5" />
-                            </div>
-                        </div>
-                    </form>
-
-                    <form class="form-inline" role="form">
-                        <div class="form-group">
-                            <div class="xform-group title">
-                                Probe Feedrate
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-addon">F</div>
-                                <input type="number" class="form-control autolevel-elem al-coord probe-fr" value="25" />
-                            </div>
-                        </div>
-                    </form>
-
-                    <form class="form-inline" role="form">
-                        <div class="form-group">
-                            <div class="xform-group title">
-                                Max Negative Z
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-addon">Z</div>
-                                <input type="number" class="form-control autolevel-elem al-coord maxneg-z" value="-1.5" />
-                            </div>
-                        </div>
-                    </form>
-
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" style="xmargin-top:10px;">
+                  <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-autofill" data-container="body" data-toggle="popover" data-placement="auto" data-content="Auto-fill the Start At and End At positions based on the extent of your Gcode objects in the 3D Viewer" data-trigger="hover" data-delay="800" data-original-title="" title="">Auto-Fill
+                  </button>
+                  <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-toggleprobearea active" data-original-title="" title="">Show Region to Probe
+                  </button>
                 </div>
-                <div class="tab-pane" id="autolevel-run">
+              </div>
 
-                    <div class="btn-toolbar" role="toolbar">
-                        <div class="btn-group" style="xmargin-top:10px;">
-                            <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-run" data-container="body" data-toggle="popover" data-placement="auto" data-content="Run the probing process." data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-play"></span>
-                            </button>
-                            <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-pause" data-container="body" data-toggle="popover" data-placement="auto" data-content="Pause the probing process. If in the middle of a Z Homing pause will only occur at end."
-                            disabled="disabled" data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-pause"></span>
-                            </button>
-                            <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-stop" data-container="body" data-toggle="popover" data-placement="auto" data-content="Stop the probe process." data-trigger="hover" data-delay="800"> <span class="glyphicon glyphicon-stop"></span>
-                            </button>
-                        </div>
-                        <div class="btn-group" style="xmargin-top:10px;">
-                            <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-runtestprobe">Run Test Probe
-                            </button>
-                        </div>
-                    </div>
-
-                    <div style="margin-top:10px;">
-
-                        <p>When you run the auto-level job, your CNC machine will move to the Start At position defined in the Pre-Run tab (typically X0 Y0) and then slowly descend on the Z axis until the Z Min Switch circuit is completed. You must make
-                            sure that your Z Min Switch is wired correctly and has minimal noise on the wiring. The TinyG does seem extra sensitive to noise. It can help to twist your wires, like the way ethernet is twisted, up to the point where you
-                            need to connect one wire to the PCB and the other to the end mill.</p>
-
-                        <p>The first point probed (the Start At position) will become your default Z0 position. A G28.2 Z0 command is issued after the first probe to set that as your Z0. All other probe locations are offsets of the first position.</p>
-
-                        <h4>Run Test Probe</h4>
-
-                        <p>It can help to run a test probe to make sure your Z Min Switch wiring is correct. When you click "run test probe" the command G38.2 Z-10 F5 is sent to the CNC controller. This will start moving your Z axis down very slowly at a
-                            5 mm/min feedrate. You must have your wires connected correctly, or you could manually choose to touch your end mill wire (alligator clip) to the PCB board well before the Z axis reaches the PCB just to test that the G28.2
-                            command stops the moment the circuit is completed.</p>
-
-                        <p>The Z-10 in the command just means your Z axis will move down a maxium of 10mm before it gives up. You should make sure that you have your Z axis set such that the Z-10 gets far enough to actually touch the PCB if you want to do
-                            a true test of the end mill making electrical contact with the PCB.</p>
-
-                        <p>Get ready on your E-Stop button in case your circuit does not complete. You can also use the red stop button in the TinyG widget to cancel the G38.2 command. That red stop button jumps ahead of any command and pauses the TinyG
-                            immediately. It works very well. Make sure to reset the TinyG planner buffer by hitting the % button afterwards.</p>
-
-                        <h4>Matrix Updates While Probing</h4>
-
-                        <p>During the probe process the matrix updates itself with the warpage. You can adjust the exaggeration of the warpage from the pulldown menu in the top toolbar.</p>
-
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-default autolevel-inline" style="xpadding:0;" data-xtoggle="dropdown">
-                                <span class="glyphicon glyphicon-zoom-in"></span> <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="xdropdown-menu well">
-                                <li role="presentation" class="dropdown-header">Exaggerate Matrix to See Detail Better</li>
-                                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate1x">1x (None)</a></li>
-                                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate10x">10x</a></li>
-                                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate50x">50x (Default)</a></li>
-                                <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate100x">100x</a></li>
-                            </ul>
-                        </div>
-
-                    </div>
-
+              <form class="form-inline" role="form" style="margin-right:10px;">
+                <div class="form-group title">
+                  Steps Every
                 </div>
-                <div class="tab-pane" id="autolevel-post-run">
-
-                    <div class="btn-toolbar" role="toolbar" style="xmargin-top:10px;">
-                        <!-- <div class="btn-group" style="margin-top:10px;"> -->
-                        <button type="button" class="btn btn-default com-chilipeppr-widget-autolevel-viewdata"><span class="glyphicon glyphicon-list-alt"></span><span class="glyphicon glyphicon-pushpin" style="margin-left:-2px;color:#666666;"></span> View Probe Data
-                        </button>
-                        <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-togglematrix"><span class="glyphicon glyphicon-th-large"></span> Show Probe Data Matrix
-                        </button>
-                        <button type="button" class="btn btn-default com-chilipeppr-widget-autolevel-gcodeview"><span class="glyphicon glyphicon glyphicon-tasks"></span> View Auto-Levelled Gcode
-                        </button>
-                        <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-gcodesendtows"><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-share-alt" style="margin-left:-4px;color:#666666;"></span> Send Auto-Levelled Gcode to Workspace
-                        </button>
-                        <!-- </div> -->
-                    </div>
-
-                    <h4>Load Recent Probe Data Files</h4>
-
-                    <p>You can do this from the upper right menu for this widget. Data is automatically saved into your recent file list after the probe process is done running.</p>
-
-                    <!-- <ul class="dropdown-menu2 xdropdown-menu" style="padding:0;">
-                    <li role="presentation" class="dropdown-header recent-files">Recent Probe Data</li>
-                    <li><a href="javascript:" class="recent-file-delete"><span class="glyphicon glyphicon-trash"></span> Clear Probe Data</a></li>
-                </ul> -->
-
-                    <h4>Load Probe Data from Paste</h4>
-
-                    <p>You can do this from the upper right menu as well.</p>
-
-                    <div class="input-group">
-                        <textarea class="form-control paste-load" placeholder="Paste Probe Data Here" spellcheck="false" rows="5"></textarea>
-                        <span class="input-group-btn" style="vertical-align: top;">
-                        <button class="btn btn-default paste-load-go" style="" type="button">Load</button>
-                    </span>
-                    </div>
-                    <!-- /input-group -->
-
+                <div class="form-group">
+                  <input class="form-control autolevel-elem grid-steps" style="width:60px;" value="5" type="text">
                 </div>
-
-                <div class="tab-pane" id="autolevel-tutorial">
-                    <!-- <iframe style="width:100%;" class="" src="//www.youtube.com/embed/6WNE3E1ZZYY" frameborder="0" allowfullscreen></iframe> -->
+                <div class="form-group">
+                  mm
                 </div>
+                <div class="form-group calc-steps hidden">Steps X: NaN, Steps Y: NaN</div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="xform-group title">
+                  Start At
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon">X</div>
+                    <input class="form-control autolevel-elem al-coord start-x" value="0" type="text">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon">Y</div>
+                    <input class="form-control autolevel-elem al-coord start-y" value="0" type="text">
+                  </div>
+                </div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="xform-group title">
+                  End At
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon">X</div>
+                    <input class="form-control autolevel-elem al-coord end-x" value="100" type="text">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon">Y</div>
+                    <input class="form-control autolevel-elem al-coord end-y" value="70" type="text">
+                  </div>
+                </div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="xform-group title">
+                  Clearance Height
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-addon">Z</div>
+                    <input class="form-control autolevel-elem al-coord high-z" value="1.5" type="text">
+                  </div>
+                </div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="form-group">
+                  <div class="xform-group title">
+                    Start Probing At
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-addon">Z</div>
+                    <input class="form-control autolevel-elem al-coord probe-z" value="0.5" type="text">
+                  </div>
+                </div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="form-group">
+                  <div class="xform-group title">
+                    Probe Feedrate
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-addon">F</div>
+                    <input class="form-control autolevel-elem al-coord probe-fr" value="5" type="text">
+                  </div>
+                </div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="form-group">
+                  <div class="xform-group title">
+                    Max Negative Z
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-addon">Z</div>
+                    <input class="form-control autolevel-elem al-coord maxneg-z" value="-0.5" type="text">
+                  </div>
+                </div>
+              </form>
+
+              <form class="form-inline" role="form">
+                <div class="form-group">
+                  <div class="xform-group title" title="Safety height to move Z axis up after last probe command completes">
+                    Z Final Safety Height
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-addon">Z</div>
+                    <input class="form-control autolevel-elem al-coord z-safetyheight" value="15" type="number">
+                  </div>
+                </div>
+              </form>
 
             </div>
-            <!-- <textarea class="form-control" rows="3"></textarea> -->
+            <div class="tab-pane" id="autolevel-run">
 
-            <!-- <button type="button" id="com-chilipeppr-widget-autolevel-pause" class="btn btn-default" style="margin-top:10px;">Pause</button> -->
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" style="xmargin-top:10px;">
+                  <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-run" data-container="body" data-toggle="popover" data-placement="auto" data-content="Run the probing process." data-trigger="hover" data-delay="800" data-original-title="" title=""> <span class="glyphicon glyphicon-play"></span>
+                  </button>
+                  <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-pause" data-container="body" data-toggle="popover" data-placement="auto" data-content="Pause the probing process. If in the middle of a Z Homing pause will only occur at end." disabled="disabled" data-trigger="hover" data-delay="800" data-original-title="" title=""> <span class="glyphicon glyphicon-pause"></span>
+                  </button>
+                  <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-stop" data-container="body" data-toggle="popover" data-placement="auto" data-content="Stop the probe process." data-trigger="hover" data-delay="800" data-original-title="" title=""> <span class="glyphicon glyphicon-stop"></span>
+                  </button>
+                </div>
+                <div class="btn-group" style="xmargin-top:10px;">
+                  <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-runtestprobe" data-original-title="" title="">Run Test Probe
+                  </button>
+                </div>
+              </div>
 
-            <!-- <button type="button" id="com-chilipeppr-widget-autolevel-autofill" class="btn btn-default" style="margin-top:10px;">Auto Fill</button> -->
+              <div style="margin-top:10px;">
 
-            <!-- <button type="button" id="com-chilipeppr-widget-autolevel-run" class="btn btn-default" style="margin-top:10px;">Run Probe</button> -->
+                <p>When you run the auto-level job, your CNC machine will move to the Start At position defined in the Pre-Run tab (typically X0 Y0) and then slowly descend on the Z axis until the Z Min Switch circuit is completed. You must make sure that your
+                  Z Min Switch is wired correctly and has minimal noise on the wiring. The TinyG does seem extra sensitive to noise. It can help to twist your wires, like the way ethernet is twisted, up to the point where you need to connect one wire to the
+                  PCB and the other to the end mill.</p>
 
-            <!-- <button type="button" id="com-chilipeppr-widget-autolevel-showregion" class="btn btn-default" style="margin-top:10px;">Show Probe Region in 3D Viewer</button> -->
-            <!-- <button type="button" id="com-chilipeppr-widget-autolevel-hideregion" class="btn btn-default" style="margin-top:10px;">Remove</button> -->
+                <p>The first point probed (the Start At position) will become your default Z0 position. A G28.2 Z0 command is issued after the first probe to set that as your Z0. All other probe locations are offsets of the first position.</p>
+
+                <h4>Run Test Probe</h4>
+
+                <p>It can help to run a test probe to make sure your Z Min Switch wiring is correct. When you click "run test probe" the command G38.2 Z-10 F5 is sent to the CNC controller. This will start moving your Z axis down very slowly at a 5 mm/min feedrate.
+                  You must have your wires connected correctly, or you could manually choose to touch your end mill wire (alligator clip) to the PCB board well before the Z axis reaches the PCB just to test that the G28.2 command stops the moment the circuit
+                  is completed.</p>
+
+                <p>The Z-10 in the command just means your Z axis will move down a maxium of 10mm before it gives up. You should make sure that you have your Z axis set such that the Z-10 gets far enough to actually touch the PCB if you want to do a true test
+                  of the end mill making electrical contact with the PCB.</p>
+
+                <p>Get ready on your E-Stop button in case your circuit does not complete. You can also use the red stop button in the TinyG widget to cancel the G38.2 command. That red stop button jumps ahead of any command and pauses the TinyG immediately.
+                  It works very well. Make sure to reset the TinyG planner buffer by hitting the % button afterwards.</p>
+
+                <h4>Matrix Updates While Probing</h4>
+
+                <p>During the probe process the matrix updates itself with the warpage. You can adjust the exaggeration of the warpage from the pulldown menu in the top toolbar.</p>
+
+                <div class="dropdown">
+                  <button type="button" class="btn btn-default autolevel-inline" style="xpadding:0;" data-xtoggle="dropdown" data-original-title="" title="">
+                    <span class="glyphicon glyphicon-zoom-in"></span> <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="xdropdown-menu well">
+                    <li role="presentation" class="dropdown-header">Exaggerate Matrix to See Detail Better</li>
+                    <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate1x">1x (None)</a></li>
+                    <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate10x">10x</a></li>
+                    <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate50x">50x (Default)</a></li>
+                    <li><a href="javascript:" class="com-chilipeppr-widget-autolevel-exaggerate100x">100x</a></li>
+                  </ul>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="tab-pane" id="autolevel-post-run">
+
+              <div class="btn-toolbar" role="toolbar" style="xmargin-top:10px;">
+                <!-- <div class="btn-group" style="margin-top:10px;"> -->
+                <button type="button" class="btn btn-default com-chilipeppr-widget-autolevel-viewdata" data-original-title="" title=""><span class="glyphicon glyphicon-list-alt"></span><span class="glyphicon glyphicon-pushpin" style="margin-left:-2px;color:#666666;"></span> View Probe Data
+                </button>
+                <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-togglematrix" data-original-title="" title=""><span class="glyphicon glyphicon-th-large"></span> Show Probe Data Matrix
+                </button>
+                <button type="button" class="btn btn-default com-chilipeppr-widget-autolevel-gcodeview" data-original-title="" title=""><span class="glyphicon glyphicon glyphicon-tasks"></span> View Auto-Levelled Gcode
+                </button>
+                <button type="button" id="" class="btn btn-default com-chilipeppr-widget-autolevel-gcodesendtows" data-original-title="" title=""><span class="glyphicon glyphicon-file"></span><span class="glyphicon glyphicon-share-alt" style="margin-left:-4px;color:#666666;"></span> Send Auto-Levelled Gcode to Workspace
+                </button>
+                <!-- </div> -->
+              </div>
+
+              <h4>Load Recent Probe Data Files</h4>
+
+              <p>You can do this from the upper right menu for this widget. Data is automatically saved into your recent file list after the probe process is done running.</p>
+
+              <!-- <ul class="dropdown-menu2 xdropdown-menu" style="padding:0;">
+                        <li role="presentation" class="dropdown-header recent-files">Recent Probe Data</li>
+                        <li><a href="javascript:" class="recent-file-delete"><span class="glyphicon glyphicon-trash"></span> Clear Probe Data</a></li>
+                    </ul> -->
+
+              <h4>Load Probe Data from Paste</h4>
+
+              <p>You can do this from the upper right menu as well.</p>
+
+              <div class="input-group">
+                <textarea class="form-control paste-load" placeholder="Paste Probe Data Here" spellcheck="false" rows="5"></textarea>
+                <span class="input-group-btn" style="vertical-align: top;">
+                            <button class="btn btn-default paste-load-go" style="" type="button" data-original-title="" title="">Load</button>
+                        </span>
+              </div>
+              <!-- /input-group -->
+
+            </div>
+
+            <div class="tab-pane" id="autolevel-tutorial">
+              <iframe style="width:100%;" class="" src="//www.youtube.com/embed/6WNE3E1ZZYY" allowfullscreen="" frameborder="0"></iframe>
+            </div>
+
+          </div>
+          <!-- <textarea class="form-control" rows="3"></textarea> -->
+
+          <!-- <button type="button" id="com-chilipeppr-widget-autolevel-pause" class="btn btn-default" style="margin-top:10px;">Pause</button> -->
+
+          <!-- <button type="button" id="com-chilipeppr-widget-autolevel-autofill" class="btn btn-default" style="margin-top:10px;">Auto Fill</button> -->
+
+          <!-- <button type="button" id="com-chilipeppr-widget-autolevel-run" class="btn btn-default" style="margin-top:10px;">Run Probe</button> -->
+
+          <!-- <button type="button" id="com-chilipeppr-widget-autolevel-showregion" class="btn btn-default" style="margin-top:10px;">Show Probe Region in 3D Viewer</button> -->
+          <!-- <button type="button" id="com-chilipeppr-widget-autolevel-hideregion" class="btn btn-default" style="margin-top:10px;">Remove</button> -->
 
         </div>
         <div id="com-chilipeppr-widget-autolevel-ftr" class="panel-footer">
-            <textarea id="com-chilipeppr-widget-autolevel-status" class="autolevel-status form-control" rows="3">Click auto-fill, or enter probe area start/end values, or load previous probe data using menus above.</textarea>
+          <textarea id="com-chilipeppr-widget-autolevel-status" class="autolevel-status form-control" rows="3">Click auto-fill, or enter probe area start/end values, or load previous probe data using menus above. (v0.4)</textarea>
         </div>
-    </div>
+      </div>
 
-    <!-- view probe data modal -->
-    <div class="modal fade " id="com-chilipeppr-widget-modal-autolevel-view" tabindex="-1" role="dialog">
+      <!-- view probe data modal -->
+      <div class="modal fade" id="com-chilipeppr-widget-modal-autolevel-view" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">View Probe Data</h4>
-                </div>
-                <div class="modal-body">
-
-                    <textarea class="form-control" placeholder="Your probe data will load here if you have any" style="height:100%;width:100%;" rows="10" spellcheck="false"></textarea>
-
-
-                </div>
-                <div class="modal-footer hidden">
-                    <button type="button" class="btn btn-default btn-autolevel-go" data-dismiss="modal">Let's Get Probing</button>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">View Probe Data</h4>
             </div>
-            <!-- /.modal-content -->
+            <div class="modal-body">
+
+              <textarea class="form-control" placeholder="Your probe data will load here if you have any" style="height:100%;width:100%;" rows="10" spellcheck="false"></textarea>
+
+
+            </div>
+            <div class="modal-footer hidden">
+              <button type="button" class="btn btn-default btn-autolevel-go" data-dismiss="modal" data-original-title="" title="">Let's Get Probing</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+      </div>
+      <!-- /.modal -->
 
-    <!-- start probee modal -->
-    <div class="modal fade " id="com-chilipeppr-widget-modal-autolevel-start" tabindex="-1" role="dialog">
+      <!-- start probee modal -->
+      <div class="modal fade " id="com-chilipeppr-widget-modal-autolevel-start" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Starting Auto-Level</h4>
-                </div>
-                <div class="modal-body">
-
-                    <p>We are about to start auto-levelling. We will probe your entire surface of the PCB as shown in the 3D viewer. Make sure you have the probe wires correctly connected to the PCB and the endmill. The Z axis will keep lowering until the
-                        circuit is complete. If you don't have your probe wires connected completely, the circuit will never be completed and you will destroy your endmill, your PCB board, and perhaps do damage to your CNC machine. You've been warned!</p>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-autolevel-go" data-dismiss="modal">Let's Get Probing</button>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">Starting Auto-Level</h4>
             </div>
-            <!-- /.modal-content -->
+            <div class="modal-body">
+
+              <p>We are about to start auto-levelling. We will probe your entire surface of the PCB as shown in the 3D viewer. Make sure you have the probe wires correctly connected to the PCB and the endmill. The Z axis will keep lowering until the circuit
+                is complete. If you don't have your probe wires connected completely, the circuit will never be completed and you will destroy your endmill, your PCB board, and perhaps do damage to your CNC machine. You've been warned!</p>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default btn-autolevel-go" data-dismiss="modal" data-original-title="" title="">Let's Get Probing</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+      </div>
+      <!-- /.modal -->
 
 </body>
 
