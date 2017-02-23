@@ -200,7 +200,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
          */
         loadGrblWidget: function(callback) {
           chilipeppr.load(
-            "#widget-widget-grbl-container-container",
+            "#widget-grbl-container",
             "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-grbl.html",
             function() {
               // Callback after widget loaded into #myDivWidgetGcode
@@ -209,7 +209,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                 ["inline:com-chilipeppr-widget-grbl"], // the id you gave your widget
                 function(myObjWidgetGcode) {
                   // Callback that is passed reference to the newly loaded widget
-                  console.log("Widget / GRBL v1.5b just got loaded.", myObjWidgetGcode);
+                  console.log("Widget / GRBL v3 just got loaded.", myObjWidgetGcode);
                   myObjWidgetGcode.init();
                 }
               );

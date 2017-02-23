@@ -134,7 +134,7 @@ ul.widget-drag-handle {
 
 #widget-grbl-container {
   position: absolute !important;
-  display: none;
+
   top: 60px;
 }
 
