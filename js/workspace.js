@@ -63,7 +63,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
             this.loadAutolevelWidget();
 
-            this.loadEagleWidget();
+            this.loadGcodelistWidget();
 
             //this.loadEagleWidget();
 
@@ -175,7 +175,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
         /**
          * Load the Gcodelist widget via chilipeppr.load()
          */
-        loadEagleWidget: function(callback) {
+        loadGcodelistWidget: function(callback) {
           chilipeppr.load(
             "#widget-gcodelist-container",
             "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-gcodelist.html",
@@ -187,6 +187,27 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                 function(myObjWidgetGcode) {
                   // Callback that is passed reference to the newly loaded widget
                   console.log("Widget / Gcode v8 just got loaded.", myObjWidgetGcode);
+                  myObjWidgetGcode.init();
+                }
+              );
+            }
+          );
+        },
+        /**
+         * Load the GRBL widget via chilipeppr.load()
+         */
+        loadGrblWidget: function(callback) {
+          chilipeppr.load(
+            "#widget-widget-grbl-container-container",
+            "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-grbl.html",
+            function() {
+              // Callback after widget loaded into #myDivWidgetGcode
+              // Now use require.js to get reference to instantiated widget
+              cprequire(
+                ["inline:com-chilipeppr-widget-grbl"], // the id you gave your widget
+                function(myObjWidgetGcode) {
+                  // Callback that is passed reference to the newly loaded widget
+                  console.log("Widget / GRBL v1.5b just got loaded.", myObjWidgetGcode);
                   myObjWidgetGcode.init();
                 }
               );

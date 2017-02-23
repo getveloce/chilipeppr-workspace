@@ -68,6 +68,15 @@ $(document).ready(function(){
         }
       });
 
+      var window_widget_grbl_draggable = [x0, y0, $( window ).width() - $( "#widget-grbl-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+      $( "#widget-grbl-container" ).draggable({
+          handle: ".widget-drag-handle",
+          containment: window_widget_grbl_draggable,
+          start: function( event, ui ) {
+              $( "#widget-grbl-container" ).css( "z-index", stack_index++ );
+          }
+        });
+
     var window_widget_eagle_draggable = [x0, y0, $( window ).width() - $( "#widget-eagle-container" ).width() - x0 - x_offset, $( window ).height() - y0];
     $( "#widget-eagle-container" ).draggable({
         handle: ".widget-drag-handle",
@@ -112,6 +121,11 @@ $(document).ready(function(){
     $( "#hide-show-widget-gcodelist" ).on( "click", function(event) {
         $( "#widget-gcodelist-container" ).css( "z-index", stack_index++ );
         $( "#widget-gcodelist-container" ).toggle( "show" );
+    });
+
+    $( "#hide-show-widget-grbl" ).on( "click", function(event) {
+        $( "#widget-grbl-container" ).css( "z-index", stack_index++ );
+        $( "#widget-grbl-container" ).toggle( "show" );
     });
 
     $( "#hide-show-widget-eagle" ).on( "click", function(event) {
