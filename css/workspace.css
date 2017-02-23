@@ -106,7 +106,7 @@ ul.widget-drag-handle {
   position: absolute !important;
   display: none;
   top: 60px;
-  z-index: 2;
+  z-index: 3;
 }
 
 #widget-console-container {
@@ -119,7 +119,7 @@ ul.widget-drag-handle {
   position: absolute !important;
   display: none;
   top: 60px;
-  z-index: 2;
+  z-index: 3;
 }
 
 #widget-3dviewer-container {
