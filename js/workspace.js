@@ -65,6 +65,8 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
             this.loadGcodelistWidget();
 
+            this.loadGrblWidget();
+
             //this.loadEagleWidget();
 
             this.load3DViewerWidget();
