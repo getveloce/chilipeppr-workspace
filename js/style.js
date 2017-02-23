@@ -50,7 +50,7 @@ $(document).ready(function(){
         }
       });
 
-    var window_widget_autolevel_draggable = [x0 + x_offset_axes, y0, $( window ).width() - $( "#widget-autolevel-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+    var window_widget_autolevel_draggable = [x0, y0, $( window ).width() - $( "#widget-autolevel-container" ).width() - x0 - x_offset, $( window ).height() - y0];
     $( "#widget-autolevel-container" ).draggable({
         handle: ".widget-drag-handle",
         containment: window_widget_autolevel_draggable,
@@ -59,7 +59,7 @@ $(document).ready(function(){
         }
       });
 
-      var window_widget_eagle_draggable = [x0 + x_offset_axes, y0, $( window ).width() - $( "#widget-eagle-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+      var window_widget_eagle_draggable = [x0, y0, $( window ).width() - $( "#widget-eagle-container" ).width() - x0 - x_offset, $( window ).height() - y0];
       $( "#widget-eagle-container" ).draggable({
           handle: ".widget-drag-handle",
           containment: window_widget_eagle_draggable,
