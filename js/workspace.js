@@ -63,6 +63,8 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
             this.loadAutolevelWidget();
 
+            this.loadEagleWidget();
+
             this.load3DViewerWidget();
 
             // Setup an event to react to window resize. This helps since
@@ -163,6 +165,27 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                   // Callback that is passed reference to the newly loaded widget
                   console.log("Widget / Auto-Level just got loaded.", myObjWidgetAutolevel);
                   myObjWidgetAutolevel.init();
+                }
+              );
+            }
+          );
+        },
+        /**
+         * Load the Eagle widget via chilipeppr.load()
+         */
+        loadEagleWidget: function(callback) {
+          chilipeppr.load(
+            "#widget-eagle-container",
+            "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-eagle.html",
+            function() {
+              // Callback after widget loaded into #myDivWidgetEagle
+              // Now use require.js to get reference to instantiated widget
+              cprequire(
+                ["inline:com-chilipeppr-widget-eagle"], // the id you gave your widget
+                function(myObjWidgetEagle) {
+                  // Callback that is passed reference to the newly loaded widget
+                  console.log("Widget / Eagle BRD v5.4 just got loaded.", myObjWidgetEagle);
+                  myObjWidgetEagle.init();
                 }
               );
             }

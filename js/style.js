@@ -59,6 +59,15 @@ $(document).ready(function(){
         }
       });
 
+      var window_widget_eagle_draggable = [x0 + x_offset_axes, y0, $( window ).width() - $( "#widget-eagle-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+      $( "#widget-eagle-container" ).draggable({
+          handle: ".widget-drag-handle",
+          containment: window_widget_eagle_draggable,
+          start: function( event, ui ) {
+              $( "#widget-eagle-container" ).css( "z-index", stack_index++ );
+          }
+        });
+
     var window_widget_3dviewer_draggable = [x0, y0, $( window ).width() - $( "#widget-3dviewer-container" ).width() - x0 - x_offset_3dviewer, $( window ).height() - y0];
     $( "#widget-3dviewer-container" ).draggable({
         handle: ".widget-drag-handle",
@@ -89,6 +98,11 @@ $(document).ready(function(){
     $( "#hide-show-widget-autolevel" ).on( "click", function(event) {
         $( "#widget-autolevel-container" ).css( "z-index", stack_index++ );
         $( "#widget-autolevel-container" ).toggle( "show" );
+    });
+
+    $( "#hide-show-widget-eagle" ).on( "click", function(event) {
+        $( "#widget-eagle-container" ).css( "z-index", stack_index++ );
+        $( "#widget-eagle-container" ).toggle( "show" );
     });
 
     $( "#hide-show-widget-3dviewer" ).on( "click", function(event) {
