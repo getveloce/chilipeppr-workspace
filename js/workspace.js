@@ -61,6 +61,8 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
             this.loadAxesWidget();
 
+            this.loadAutolevelWidget();
+
             this.load3DViewerWidget();
 
             // Setup an event to react to window resize. This helps since
@@ -140,6 +142,27 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
                   // Callback that is passed reference to the newly loaded widget
                   console.log("Widget / XYZ Axes v2 just got loaded.", myObjWidgetXyz);
                   myObjWidgetXyz.init();
+                }
+              );
+            }
+          );
+        },
+        /**
+         * Load the Autolevel widget via chilipeppr.load()
+         */
+        loadAutolevelWidget: function(callback) {
+          chilipeppr.load(
+            "#widget-autolevel-container",
+            "https://raw.githubusercontent.com/getveloce/chilipeppr-workspace/master/widgets/widget-autolevel.html",
+            function() {
+              // Callback after widget loaded into #myDivWidgetAutolevel
+              // Now use require.js to get reference to instantiated widget
+              cprequire(
+                ["inline:com-chilipeppr-widget-autolevel"], // the id you gave your widget
+                function(myObjWidgetAutolevel) {
+                  // Callback that is passed reference to the newly loaded widget
+                  console.log("Widget / Auto-Level just got loaded.", myObjWidgetAutolevel);
+                  myObjWidgetAutolevel.init();
                 }
               );
             }

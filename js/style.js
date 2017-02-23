@@ -27,7 +27,6 @@ $(document).ready(function(){
     $( "#widget-spjs-container" ).draggable({
         handle: ".widget-drag-handle",
         containment: window_widget_spjs_draggable,
-        //stack: ".draggable"
         start: function( event, ui ) {
             $( "#widget-spjs-container" ).css( "z-index", stack_index++ );
         }
@@ -37,7 +36,6 @@ $(document).ready(function(){
     $( "#widget-console-container" ).draggable({
         handle: ".widget-drag-handle",
         containment: window_widget_console_draggable,
-        //stack: ".draggable"
         start: function( event, ui ) {
             $( "#widget-console-container" ).css( "z-index", stack_index++ );
         }
@@ -47,9 +45,17 @@ $(document).ready(function(){
     $( "#widget-axes-container" ).draggable({
         handle: ".widget-drag-handle",
         containment: window_widget_axes_draggable,
-        //stack: ".draggable"
         start: function( event, ui ) {
             $( "#widget-axes-container" ).css( "z-index", stack_index++ );
+        }
+      });
+
+    var window_widget_autolevel_draggable = [x0 + x_offset_axes, y0, $( window ).width() - $( "#widget-autolevel-container" ).width() - x0 - x_offset, $( window ).height() - y0];
+    $( "#widget-autolevel-container" ).draggable({
+        handle: ".widget-drag-handle",
+        containment: window_widget_autolevel_draggable,
+        start: function( event, ui ) {
+            $( "#widget-autolevel-container" ).css( "z-index", stack_index++ );
         }
       });
 
@@ -78,6 +84,11 @@ $(document).ready(function(){
     $( "#hide-show-widget-axes" ).on( "click", function(event) {
         $( "#widget-axes-container" ).css( "z-index", stack_index++ );
         $( "#widget-axes-container" ).toggle( "show" );
+    });
+
+    $( "#hide-show-widget-autolevel" ).on( "click", function(event) {
+        $( "#widget-autolevel-container" ).css( "z-index", stack_index++ );
+        $( "#widget-autolevel-container" ).toggle( "show" );
     });
 
     $( "#hide-show-widget-3dviewer" ).on( "click", function(event) {

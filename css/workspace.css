@@ -112,14 +112,18 @@ ul.widget-drag-handle {
 #widget-console-container {
   position: absolute !important;
   top: 60px;
-  z-index: 2;
 }
 
 #widget-axes-container {
   position: absolute !important;
   display: none;
   top: 60px;
-  z-index: 4;
+}
+
+#widget-autolevel-container {
+  position: absolute !important;
+  display: none;
+  top: 60px;
 }
 
 #widget-3dviewer-container {
