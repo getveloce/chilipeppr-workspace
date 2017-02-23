@@ -48,7 +48,12 @@ $(document).ready(function(){
         $( "#widget-3dviewer-container" ).draggable({
             handle: ".widget-drag-handle",
             containment: window_widget_3dviewer_draggable,
-            stack: ".draggable"
+            start: function( event, ui ) {
+                $( "#widget-3dviewer-panel-heading" ).css( "z-index", "100" );
+            },
+            stop: function( event, ui ) {
+                $( "#widget-3dviewer-panel-heading" ).css( "z-index", "1" );
+            }
           });
     } );
 
