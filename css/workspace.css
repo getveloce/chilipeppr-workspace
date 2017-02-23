@@ -106,12 +106,12 @@ ul.widget-drag-handle {
   position: absolute !important;
   display: none;
   top: 60px;
-  z-index: 4;
 }
 
 #widget-console-container {
   position: absolute !important;
   top: 60px;
+  left:
 }
 
 #widget-axes-container {
