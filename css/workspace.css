@@ -126,6 +126,12 @@ ul.widget-drag-handle {
   top: 60px;
 }
 
+#widget-gcodelist-container {
+  position: absolute !important;
+  display: none;
+  top: 60px;
+}
+
 #widget-eagle-container {
   position: absolute !important;
   display: none;
