@@ -63,7 +63,7 @@ cpdefine("inline:com-chilipeppr-workspace-de", ["chilipeppr_ready"], function() 
 
             this.loadAutolevelWidget();
 
-            this.loadEagleWidget();
+            //this.loadEagleWidget();
 
             this.load3DViewerWidget();
 
