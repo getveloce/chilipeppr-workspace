@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <title>Widget / Serial Port JSON Server</title>
+    <title>Widget / GRBL</title>
 
     <!-- ChiliPeppr is based on bootstrap CSS. -->
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -48,45 +48,44 @@
 }
     </style>
 
-
     <script type='text/javascript'>
     //<![CDATA[
-// Test this element. This code is auto-removed by the chilipeppr.load()
-cprequire_test(["inline:com-chilipeppr-widget-grbl"], function (grbl) {
-    //console.log("test running of " + grbl.id);
-    grbl.init();
-    //testRecvline();
+    // Test this element. This code is auto-removed by the chilipeppr.load()
+    cprequire_test(["inline:com-chilipeppr-widget-grbl"], function (grbl) {
+        //console.log("test running of " + grbl.id);
+        grbl.init();
+        //testRecvline();
 
-    var sendGrblVersion = function() {
-        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
-            dataline: "Grbl 0.8c"
-        });
-    };
-
-    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$0=755.906 (x, step/mm)\n" });
-    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$1=755.906 (y, step/mm)\n" });
-    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$13=0 (report mode, 0=mm,1=inch)\n" });
-    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$3=30 (step pulse, usec)\n" });
-    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$5=500.000 (default feed, mm/min)\n" });
-
-    chilipeppr.publish("/com-chilipeppr-widget-3dviewer/unitsChanged","inch");
-
-    var sendTestPositionData = function() {
-        setTimeout(function() {
-            // MPos:[-0.05,0.00,0.00],WPos:[-0.05,0.00,0.00]
+        var sendGrblVersion = function() {
             chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
-                //dataline: "MPos:[-0.05,0.00,0.00],WPos:[-0.05,0.200,-1.00]"  //0.8a
-                dataline: "<idle,MPos:-0.05,0.00,0.00,WPos:-0.05,0.200,-1.00>"  //0.8c
+                dataline: "Grbl 0.8c"
             });
-        }, 2000);
+        };
 
-    };
-    sendGrblVersion();
-    sendTestPositionData();
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$0=755.906 (x, step/mm)\n" });
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$1=755.906 (y, step/mm)\n" });
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$13=0 (report mode, 0=mm,1=inch)\n" });
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$3=30 (step pulse, usec)\n" });
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: "$5=500.000 (default feed, mm/min)\n" });
 
-    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort",{BufferAlgorithm: "grbl"}); //error not grbl buffer
+        chilipeppr.publish("/com-chilipeppr-widget-3dviewer/unitsChanged","inch");
 
-} /*end_test*/ );
+        var sendTestPositionData = function() {
+            setTimeout(function() {
+                // MPos:[-0.05,0.00,0.00],WPos:[-0.05,0.00,0.00]
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                    //dataline: "MPos:[-0.05,0.00,0.00],WPos:[-0.05,0.200,-1.00]"  //0.8a
+                    dataline: "<idle,MPos:-0.05,0.00,0.00,WPos:-0.05,0.200,-1.00>"  //0.8c
+                });
+            }, 2000);
+
+        };
+        sendGrblVersion();
+        sendTestPositionData();
+
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort",{BufferAlgorithm: "grbl"}); //error not grbl buffer
+
+    } /*end_test*/ );
 
 function Queue(){var e=[];var t=0;this.getLength=function(){return e.length-t};this.isEmpty=function(){return e.length==0};this.enqueue=function(t){e.push(t)};this.dequeue=function(){if(e.length==0)return undefined;var n=e[t];if(++t*2>=e.length){e=e.slice(t);t=0}return n};this.peek=function(){return e.length>0?e[t]:undefined};this.sum=function(){for(var t=0,n=0;t<e.length;n+=e[t++]);return n};this.last=function(){return e[e.length-1]}}
 
