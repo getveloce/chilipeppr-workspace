@@ -139,4 +139,5 @@ ul.widget-drag-handle {
 
 #widget-3dviewer-panel-heading {
   position: absolute !important;
+  float: right !important;
 }
